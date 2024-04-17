@@ -16,6 +16,7 @@ public class MahjongGame extends Frame {
     private Player[] players;
     private TouchDeal touchDeal;
     private int playerIndex;
+    private int previousPlayerIndex;
     private GameBackGround gameBackGround;
     private Scanner scanner;
     private Player player;
@@ -25,6 +26,7 @@ public class MahjongGame extends Frame {
         scanner = new Scanner(System.in);
         player = new Player();
         deck = new MahjongDeck();
+        playerIndex = 0;
         //先不加UI的测试
         //setUI();
 
@@ -35,6 +37,20 @@ public class MahjongGame extends Frame {
         touchDeal = new TouchDeal(players);
     }
 
+    public void updatePlayerIndices() {
+        previousPlayerIndex = playerIndex;
+        playerIndex = (playerIndex + 1) % 4; // 更新为下一个玩家的索引
+    }
+    // 在测试摸牌和出牌的方法中，调用此方法来更新当前玩家和前一个玩家的索引
+    public void updateIndicesAndDiscard() {
+        updatePlayerIndices();
+        drawAndDiscard();
+    }
+    public void drawAndDiscard() {
+        drawTile(); // 摸牌
+        touchDeal.discardTile(playerIndex, previousPlayerIndex); // 出牌并传入索引
+        updatePlayerHands(); // 更新玩家手牌
+    }
     public void drawTile() {
         MahjongTile tile = deck.drawTile();
         System.out.println("摸到的牌: " + tile);
@@ -42,12 +58,10 @@ public class MahjongGame extends Frame {
     }
 
 
-
     public void testDrawAndDiscard() {
         drawTile();
-        touchDeal.discardTile(0);
+        touchDeal.discardTile(playerIndex,  previousPlayerIndex);
         updatePlayerHands();
-        
     }
 
     public void dealTiles() {
