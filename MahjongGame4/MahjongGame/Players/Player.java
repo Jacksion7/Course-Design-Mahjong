@@ -1,5 +1,7 @@
 package Players;
 
+import GameRules.Chow;
+import GameRules.TouchDeal;
 import Mahjong.MahjongDeck;
 import Mahjong.MahjongTile;
 
@@ -12,6 +14,12 @@ public class Player {
     public Random random;
     private List<MahjongTile> hand;
     private MahjongDeck deck;
+    private Chow chow;
+    private TouchDeal touchDeal;
+    private MahjongTile firstTile;
+    private MahjongTile secondTile;
+    private MahjongTile thirdTile;
+
     public Player() {
         hand = new ArrayList<>();
         random = new Random();
@@ -88,53 +96,33 @@ public class Player {
     }
 
     public boolean canChow(int value, String suit) {
-        if (suit == null || suit.isEmpty()) {
-            return false; // 如果牌面字符串为空，则无法吃牌
-        }
-        //System.out.println("Suit: " + suit);
-
-        // 检查牌面字符串长度，以确保其足够长
-        if (suit.length() < 2) {
-            return false; // 牌面字符串长度不够，无法解析牌值
-        }
-
-        // 将牌面字符串转换为相应的数字
-        int tileValue = Integer.parseInt(suit.substring(0, suit.length() - 1));
-
-        // 判断是否可以吃
-        if (value >= 2 && value <= 8) {
-            // 如果牌值在2到8之间，则可以吃牌
-            // 判断是否存在能够组成顺子的牌
-            boolean containsValue1 = false;
-            boolean containsValue2 = false;
-            // 判断是否存在 value - 1 和 value - 2 的牌
-            for (MahjongTile tile : hand) {
-                if (tile.getValue() == value - 1 && tile.getSuit().equals(suit)) {
-                    containsValue1 = true;
-                } else if (tile.getValue() == value - 2 && tile.getSuit().equals(suit)) {
-                    containsValue2 = true;
-                }
-            }
-            return containsValue1 && containsValue2;
-        }
-
-        // 特殊处理1、9万和1、9条和1、9筒
-        if (value == 1 || value == 9) {
-            // 如果当前牌值为1或者9，则只需判断是否存在 value + 1 和 value + 2 的牌
-            boolean containsValue2 = false;
-            boolean containsValue3 = false;
-            for (MahjongTile tile : hand) {
-                if (tile.getValue() == value + 1 && tile.getSuit().equals(suit)) {
-                    containsValue2 = true;
-                } else if (tile.getValue() == value + 2 && tile.getSuit().equals(suit)) {
-                    containsValue3 = true;
-                }
-            }
-            return containsValue2 && containsValue3;
-        }
-
-        return false;
+        //创建一个Chow对象，用于判断是否可以吃牌
+        chow = new Chow(firstTile, secondTile, thirdTile);
+        return chow.canChow(this, new MahjongTile(suit, value));
     }
+
+    public void chowTile(int chowIndex, MahjongTile tile) {
+        Chow chow = touchDeal.getCurrentChow();
+        if (chow != null && chowIndex >= 0 && chowIndex < 3) {
+            // 检查是否可以吃牌
+            if (chow.isValidChow(tile)) {
+                // 吃牌成功，将顺子牌加入手牌
+                hand.add(chow.getFirstTile());
+                hand.add(chow.getSecondTile());
+                hand.add(chow.getThirdTile());
+                // 从手牌中移除被吃的牌
+                hand.remove(tile);
+                // 清空当前的顺子牌
+                touchDeal.clearCurrentChow();
+                System.out.println("吃牌成功！");
+            } else {
+                System.out.println("无法吃牌！");
+            }
+        } else {
+            System.out.println("当前没有可以吃的牌！");
+        }
+    }
+
 
     private int getSuitOrder(String suit) {
         switch (suit) {

@@ -54,46 +54,54 @@ public class TouchDeal {
         int value = Integer.parseInt(parts[0]);
         String tileToDiscard = parts[1];
 
+        System.out.println("111111");
+
         // 检查是否可以吃
         if (isNeighbor(playerIndex, previousPlayerIndex)) {
+            System.out.println("222222");
             Player previousPlayer = players[previousPlayerIndex];
+            MahjongTile tile = new MahjongTile(tileToDiscard, value);
             if (previousPlayer.canChow(value, tileToDiscard)) {
                 System.out.println("玩家 " + (previousPlayerIndex + 1) + " 打出的牌可以吃！");
                 // 提示玩家进行吃操作
+                if (currentChow != null && currentChow.canChow(players[playerIndex], tile)) {
+                    System.out.println("您可以进行吃操作。");
+                    // 进行吃操作
+                    players[playerIndex].drawTile(tile);
+                    players[playerIndex].drawTile(currentChow.getFirstTile());
+                    players[playerIndex].drawTile(currentChow.getSecondTile());
+                    clearCurrentChow();
+                    System.out.println("吃牌成功！");
+                    return;
+                }
             }
         }
 
         boolean found = false;
-        for (MahjongTile tile : players[playerIndex].getHand()) {
-            if (tile.getValue() == value && tile.getSuit().equals(tileToDiscard)) {
+
+        for (MahjongTile tile2 : players[playerIndex].getHand()) {
+            if (tile2.getValue() == value && tile2.getSuit().equals(tileToDiscard)) {
                 found = true;
                 break;
             }
         }
+
         if (!found) {
             System.out.println("您手上的牌中没有该牌，请重新输入！");
             discardTile(playerIndex, previousPlayerIndex);
             return;
         }
-
         MahjongTile tile = new MahjongTile(tileToDiscard, value);
-        if (currentChow != null && currentChow.canChow(players[playerIndex], tile)) {
-            System.out.println("您可以进行吃操作。");
-            // 进行吃操作
-            players[playerIndex].drawTile(tile);
-            players[playerIndex].drawTile(currentChow.getFirstTile());
-            players[playerIndex].drawTile(currentChow.getSecondTile());
-            clearCurrentChow();
-            System.out.println("吃牌成功！");
-        } else {
-            // 如果不能吃，则进行普通的出牌操作
-            dealTile(playerIndex, tile);
-        }
+        dealTile(playerIndex, tile);
     }
 
     private boolean isNeighbor(int playerIndex, int previousPlayerIndex) {
-        return (playerIndex + 1) % players.length == previousPlayerIndex;
+        int numPlayers = players.length;
+        int nextPlayerIndex = (previousPlayerIndex + 1) % numPlayers;
+        return playerIndex == nextPlayerIndex;
     }
+
+
 
 
 }

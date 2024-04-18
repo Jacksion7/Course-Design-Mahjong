@@ -37,7 +37,7 @@ public class MahjongGame extends Frame {
         touchDeal = new TouchDeal(players);
     }
 
-    public void updatePlayerIndices() {
+    /*public void updatePlayerIndices() {
         previousPlayerIndex = playerIndex;
         playerIndex = (playerIndex + 1) % 4; // 更新为下一个玩家的索引
     }
@@ -46,21 +46,30 @@ public class MahjongGame extends Frame {
         updatePlayerIndices();
         drawAndDiscard();
     }
+
     public void drawAndDiscard() {
         drawTile(); // 摸牌
         touchDeal.discardTile(playerIndex, previousPlayerIndex); // 出牌并传入索引
         updatePlayerHands(); // 更新玩家手牌
+    }*/
+    public void playGame() {
+        dealTiles();
+        while (!isGameOver()) {
+            testDrawAndDiscard();
+            playComputerTurn();
+        }
     }
+
     public void drawTile() {
         MahjongTile tile = deck.drawTile();
         System.out.println("摸到的牌: " + tile);
-        touchDeal.drawTile(tile);
+        players[playerIndex].drawTile(tile);
     }
 
 
     public void testDrawAndDiscard() {
         drawTile();
-        touchDeal.discardTile(playerIndex,  previousPlayerIndex);
+        touchDeal.discardTile(playerIndex, previousPlayerIndex);
         updatePlayerHands();
     }
 
@@ -122,7 +131,7 @@ public class MahjongGame extends Frame {
 
     public void playComputerTurn() {
         // 进入电脑自动抽牌发牌的回合
-        for (int i = 1; i < 4; i++) {
+        for (int i = 2; i < 4; i++) {
             //这里本来想写从玩家2开始（i=2）但不知道为什么超出列表了
             System.out.println("电脑 " + i + " 的回合：");
             players[i].computerPlay();
@@ -130,7 +139,7 @@ public class MahjongGame extends Frame {
         }
     }
 
-    public void setUI(){
+    /*public void setUI(){
         //visible of window
         setVisible(true);
         //size
@@ -153,18 +162,12 @@ public class MahjongGame extends Frame {
         initGamg();
         new Run().start();
 
-    }
+    }*/
 
     public static void main(String[] args) {
         MahjongGame game = new MahjongGame();
-        game.dealTiles();
-        while (!game.isGameOver()) {
-            game.testDrawAndDiscard();
-            game.playComputerTurn();
+        game.playGame();
         }
-
-    }
-
 
 
 

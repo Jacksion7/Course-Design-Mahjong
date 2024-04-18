@@ -6,6 +6,7 @@ import Players.Player;
 import java.util.List;
 
 public class Chow {
+    private Player player;
     private MahjongTile firstTile;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
@@ -30,21 +31,21 @@ public class Chow {
 
     public boolean isValidChow(MahjongTile tile) {
         // 判断传入的牌是否可以和当前顺子牌型组成吃
-        if (firstTile.getValue() == tile.getValue() - 1 && secondTile.getValue() == tile.getValue() && thirdTile.getValue() == tile.getValue() + 1) {
-            return true;
-        }
+        /*if (firstTile.getValue() == tile.getValue() - 1 && secondTile.getValue() == tile.getValue() && thirdTile.getValue() == tile.getValue() + 1) {
+            for (MahjongTile handTile : player.getHand()) {
+                if (handTile.equals(tile)) {
+                    return true;
+                }
+            }
+        }*/
         return false;
     }
 
     public boolean canChow(Player player, MahjongTile tile) {
         // 判断玩家是否可以吃掉指定的牌
-        List<MahjongTile> hand = player.getHand();
-        // 首先判断手牌中是否有与传入的牌可以组成吃的牌
-        for (int i = 0; i < hand.size(); i++) {
-            if (isValidChow(hand.get(i))) {
-                // 如果存在可组成吃的牌，则返回 true
-                return true;
-            }
+        // 首先检查传入的牌是否可以和当前顺子牌型组成吃
+        if (isValidChow(tile)) {
+            return true;
         }
         return false;
     }
