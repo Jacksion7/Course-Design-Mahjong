@@ -1,7 +1,6 @@
 package Players;
 
 import GameRules.Chow;
-import GameRules.TouchDeal;
 import Mahjong.MahjongDeck;
 import Mahjong.MahjongTile;
 
@@ -14,16 +13,13 @@ public class Player {
     public Random random;
     private List<MahjongTile> hand;
     private MahjongDeck deck;
-    private Chow chow;
-    private TouchDeal touchDeal;
-    private MahjongTile firstTile;
-    private MahjongTile secondTile;
-    private MahjongTile thirdTile;
+    public Chow chow;
 
-    public Player() {
+    public Player(MahjongTile discardedTile, Player[] players) {
         hand = new ArrayList<>();
         random = new Random();
         deck = new MahjongDeck();
+        chow = new Chow(discardedTile, players, this);
     }
     public List<MahjongTile> getHand() {
         return hand;
@@ -39,6 +35,7 @@ public class Player {
         } else {
             System.out.println("玩家手牌中没有这张牌: " + tile);
         }
+        System.out.println();
     }
 
     public void displayHand() {
@@ -51,15 +48,12 @@ public class Player {
     public void computerPlay() {
         // 电脑玩家的回合
         if (!hand.isEmpty()) {
-            // 摸牌
-            MahjongTile tileDrawn = deck.drawTile();
-            System.out.println("Player 摸到了一张牌：" + tileDrawn);
-            drawTile(tileDrawn);
-
+            /*
             // 判断是否能够吃牌
             MahjongTile tileToPlay = null;
-            for (MahjongTile tileInHand : hand) {
-                if (canChow(tileInHand.getValue(), tileInHand.getSuit())) {
+            Player nextPlayer = chow.getNextPlayer(this);
+            for (MahjongTile tileInHand : nextPlayer.getHand()) {
+                if (chow.canChow(tileInHand.getValue(), tileInHand.getSuit(), nextPlayer)) {
                     // 如果可以吃牌，则选择一张牌进行吃牌操作
                     tileToPlay = tileInHand;
                     break;
@@ -70,7 +64,7 @@ public class Player {
                 // 如果存在可以吃的牌，则执行吃牌操作
                 System.out.println("Player 选择了吃牌：" + tileToPlay);
                 // 执行吃牌操作
-                canChow(tileToPlay.getValue(), tileToPlay.getSuit());
+                chow.chowTile(tileToPlay, this);
                 hand.remove(tileToPlay);
             } else {
                 // 如果不能吃牌，则随机选择一张手牌进行出牌
@@ -78,10 +72,23 @@ public class Player {
                 System.out.println("Player 出了一张牌：" + tileToPlay);
                 hand.remove(tileToPlay);
             }
+            */
+            // 摸牌
+            MahjongTile tileDrawn = deck.drawTile();
+            System.out.println("Player 摸到了一张牌：" + tileDrawn);
+            drawTile(tileDrawn);
+
+            MahjongTile tileToPlay = hand.get(random.nextInt(hand.size()));
+            hand.remove(tileToPlay);
+            System.out.println("Player 出了一张牌：" + tileToPlay);
+
         } else {
             System.out.println("玩家手牌已空，无法出牌。");
+
+
         }
     }
+
 
 
     private void sortHand() {
@@ -94,35 +101,6 @@ public class Player {
             return t1.getValue() - t2.getValue();
         });
     }
-
-    public boolean canChow(int value, String suit) {
-        //创建一个Chow对象，用于判断是否可以吃牌
-        chow = new Chow(firstTile, secondTile, thirdTile);
-        return chow.canChow(this, new MahjongTile(suit, value));
-    }
-
-    public void chowTile(int chowIndex, MahjongTile tile) {
-        Chow chow = touchDeal.getCurrentChow();
-        if (chow != null && chowIndex >= 0 && chowIndex < 3) {
-            // 检查是否可以吃牌
-            if (chow.isValidChow(tile)) {
-                // 吃牌成功，将顺子牌加入手牌
-                hand.add(chow.getFirstTile());
-                hand.add(chow.getSecondTile());
-                hand.add(chow.getThirdTile());
-                // 从手牌中移除被吃的牌
-                hand.remove(tile);
-                // 清空当前的顺子牌
-                touchDeal.clearCurrentChow();
-                System.out.println("吃牌成功！");
-            } else {
-                System.out.println("无法吃牌！");
-            }
-        } else {
-            System.out.println("当前没有可以吃的牌！");
-        }
-    }
-
 
     private int getSuitOrder(String suit) {
         switch (suit) {
