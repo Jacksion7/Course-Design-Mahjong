@@ -1,27 +1,30 @@
 package GameRules;
 
 import Mahjong.MahjongTile;
+import Players.Computers;
 import Players.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Chow {
+    private List<MahjongTile> chowTiles = new ArrayList<>();
     private MahjongTile discardedTile;
     public Player currentPlayer;
     private Player[] players;
+    private Computers[] computers;
     private List<MahjongTile> hand;
     private MahjongTile firstTile;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
-    public Chow(MahjongTile discardedTile, Player[] players, Player currentPlayer) {
+    public Chow(MahjongTile discardedTile, Player[] players, Computers[] computers) {
         this.discardedTile = discardedTile;
         this.players = players;
-        this.currentPlayer = currentPlayer;
+        this.computers = computers;
+        //this.currentPlayer = currentPlayer;
     }
     public MahjongTile getFirstTile() {
-        return firstTile;
+        return discardedTile;
     }
     public MahjongTile getSecondTile() {
         return secondTile;
@@ -29,6 +32,8 @@ public class Chow {
     public MahjongTile getThirdTile() {
         return thirdTile;
     }
+
+    /*
     public boolean isValidChow(MahjongTile tile) {
         // 如果当前的顺子牌型为空，那么无法吃牌
         if (firstTile == null || secondTile == null || thirdTile == null) {
@@ -55,6 +60,7 @@ public class Chow {
 
         return false;
     }
+     */
 
     public boolean canChow(int value, String suit,  Player currentPlayer) {
         MahjongTile discardedTile = new MahjongTile(suit, value); // 获取上家打出的牌
@@ -119,7 +125,6 @@ public class Chow {
             MahjongTile thirdTile = getThirdTile();
 
             // 添加顺子牌到新的列表中
-            List<MahjongTile> chowTiles = new ArrayList<>();
             chowTiles.add(firstTile);
             chowTiles.add(secondTile);
             chowTiles.add(thirdTile);

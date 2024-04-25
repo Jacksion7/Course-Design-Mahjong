@@ -9,89 +9,74 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/*对于这个类，我们需要的是一个玩家类
+ *玩家类应该包含以下属性：
+ *玩家的手牌（hand）
+ *手牌的更新方法（updateHand）
+ *四个玩家的每回合操作（playIndex）
+ *手牌的排序方法（sortHand, getSuitOrder）
+ *
+
+ */
 public class Player {
+    private int playerIndex;
     public Random random;
-    private List<MahjongTile> hand;
+    public List<MahjongTile> hand;
     private MahjongDeck deck;
     public Chow chow;
 
-    public Player(MahjongTile discardedTile, Player[] players) {
+    public Player(MahjongTile discardedTile) {
+        //this.playerIndex = playerIndex;
         hand = new ArrayList<>();
         random = new Random();
-        deck = new MahjongDeck();
-        chow = new Chow(discardedTile, players, this);
+        //deck = new MahjongDeck();
+        //chow = new Chow(discardedTile, players, this);
     }
+
+    //用来设置玩家顺序
+    /*
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
+    }
+     */
+
+    //用来获得玩家顺序
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
+
+    //手牌
     public List<MahjongTile> getHand() {
         return hand;
     }
+
+    public void setHand(List<MahjongTile> new_hand) {
+        hand = new_hand;
+    }
+    //
     public void drawTile(MahjongTile tile) {
         hand.add(tile);
     }
-
-    public void dealTile(MahjongTile tile) {
+    public void dealPlayerTile(MahjongTile tile) {
         if (hand.contains(tile)) {
             hand.remove(tile);
-            System.out.println("Player 1" +" 出了一张牌：" + tile);
         } else {
             System.out.println("玩家手牌中没有这张牌: " + tile);
         }
         System.out.println();
     }
 
+    //这个方法是用来展示手牌的
     public void displayHand() {
         sortHand();
         for (MahjongTile tile : hand) {
             System.out.print(tile + " ");
         }
+        System.out.println();
     }
 
-    public void computerPlay() {
-        // 电脑玩家的回合
-        if (!hand.isEmpty()) {
-            /*
-            // 判断是否能够吃牌
-            MahjongTile tileToPlay = null;
-            Player nextPlayer = chow.getNextPlayer(this);
-            for (MahjongTile tileInHand : nextPlayer.getHand()) {
-                if (chow.canChow(tileInHand.getValue(), tileInHand.getSuit(), nextPlayer)) {
-                    // 如果可以吃牌，则选择一张牌进行吃牌操作
-                    tileToPlay = tileInHand;
-                    break;
-                }
-            }
-
-            if (tileToPlay != null) {
-                // 如果存在可以吃的牌，则执行吃牌操作
-                System.out.println("Player 选择了吃牌：" + tileToPlay);
-                // 执行吃牌操作
-                chow.chowTile(tileToPlay, this);
-                hand.remove(tileToPlay);
-            } else {
-                // 如果不能吃牌，则随机选择一张手牌进行出牌
-                tileToPlay = hand.get(random.nextInt(hand.size()));
-                System.out.println("Player 出了一张牌：" + tileToPlay);
-                hand.remove(tileToPlay);
-            }
-            */
-            // 摸牌
-            MahjongTile tileDrawn = deck.drawTile();
-            System.out.println("Player 摸到了一张牌：" + tileDrawn);
-            drawTile(tileDrawn);
-
-            MahjongTile tileToPlay = hand.get(random.nextInt(hand.size()));
-            hand.remove(tileToPlay);
-            System.out.println("Player 出了一张牌：" + tileToPlay);
-
-        } else {
-            System.out.println("玩家手牌已空，无法出牌。");
-
-
-        }
-    }
-
-
-
-    private void sortHand() {
+    //这个方法是用来排序手牌的
+    public void sortHand() {
         Collections.sort(hand, (t1, t2) -> {
             int suitOrder1 = getSuitOrder(t1.getSuit());
             int suitOrder2 = getSuitOrder(t2.getSuit());
@@ -102,6 +87,7 @@ public class Player {
         });
     }
 
+    //这是排序手牌的依据
     private int getSuitOrder(String suit) {
         switch (suit) {
             case "万":

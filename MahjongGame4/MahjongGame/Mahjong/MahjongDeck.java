@@ -5,42 +5,46 @@ import java.util.List;
 import java.util.Random;
 
 public class MahjongDeck {
-    private List<MahjongTile> tiles;
+    //牌库
+    private List<MahjongTile> tilesLibrary;
+    //随机数生成器
     private Random random;
 
-
     public MahjongDeck() {
-        tiles = new ArrayList<>();
+        tilesLibrary = new ArrayList<>();
         random = new Random();
 
+        //初始化牌库
         for (int i = 1; i <= 9; i++) {
             for (int j = 0; j < 4; j++) {
-                tiles.add(new MahjongTile("万", i));
-                tiles.add(new MahjongTile("条", i));
-                tiles.add(new MahjongTile("筒", i));
+                tilesLibrary.add(new MahjongTile("万", i));
+                tilesLibrary.add(new MahjongTile("条", i));
+                tilesLibrary.add(new MahjongTile("筒", i));
             }
         }
-
         String[] honors = {"东", "南", "西", "北", "中", "发", "白"};
         for (String honor : honors) {
             for (int i = 0; i < 4; i++) {
-                tiles.add(new MahjongTile(honor, 0));
+                tilesLibrary.add(new MahjongTile(honor, 0));
             }
         }
     }
 
+    //从牌库中随机抽一张牌，并且从牌库中移除该牌，返回该牌。！！这一部分应该在出摸牌中实现。！！
     public MahjongTile drawTile() {
-        if (tiles.isEmpty()) {
+        if (tilesLibrary.isEmpty()) {
             return null;
         }
-        int index = random.nextInt(tiles.size());
-        MahjongTile tile = tiles.remove(index);
+        int index = random.nextInt(tilesLibrary.size());
+        MahjongTile tile = tilesLibrary.remove(index);
         return tile;
     }
 
-    public List<MahjongTile> getTiles() {
-        return tiles;
+    /*
+    public List<MahjongTile> getTilesLibrary() {
+        return tilesLibrary;
     }
+     */
 
 
 }
