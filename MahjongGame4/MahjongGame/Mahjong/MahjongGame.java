@@ -32,7 +32,6 @@ public class MahjongGame extends Frame {
     //创建一个用来存放玩家们出牌的列表
     public ArrayList<MahjongTile> tileList = new ArrayList<>(4);
 
-
     public MahjongGame () {
         deck = new MahjongDeck();
 
