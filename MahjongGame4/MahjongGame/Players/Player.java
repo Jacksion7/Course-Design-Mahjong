@@ -25,20 +25,11 @@ public class Player {
     private MahjongDeck deck;
     public Chow chow;
 
-    public Player(MahjongTile discardedTile) {
-        //this.playerIndex = playerIndex;
+    public Player(MahjongTile discardedTile, Player[] players, Computers[] computers) {
         hand = new ArrayList<>();
         random = new Random();
-        //deck = new MahjongDeck();
-        //chow = new Chow(discardedTile, players, this);
+        chow = new Chow(discardedTile, players, computers);
     }
-
-    //用来设置玩家顺序
-    /*
-    public void setPlayerIndex(int playerIndex) {
-        this.playerIndex = playerIndex;
-    }
-     */
 
     //用来获得玩家顺序
     public int getPlayerIndex() {
@@ -48,10 +39,6 @@ public class Player {
     //手牌
     public List<MahjongTile> getHand() {
         return hand;
-    }
-
-    public void setHand(List<MahjongTile> new_hand) {
-        hand = new_hand;
     }
     //
     public void drawTile(MahjongTile tile) {

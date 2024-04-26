@@ -17,16 +17,16 @@ public class TouchDeal {
     private Computers computer;
     private Scanner scanner;
     private MahjongTile discardedTile;
+    private Chow chow;
     private MahjongDeck deck;
     private int playerIndex;
 
     public TouchDeal(Player[] players, Computers[] computers) {
         this.players = players;
         this.computers = computers;
-        player = new Player(discardedTile);
-        computer = new Computers(discardedTile);
-        deck = new MahjongDeck();
-        scanner = new Scanner(System.in);
+        this.deck = new MahjongDeck();
+        this.scanner = new Scanner(System.in);
+        this.chow = new Chow(discardedTile, players, computers);
     }
 
     public void DiscardedTile(MahjongTile tile) {
@@ -54,31 +54,6 @@ public class TouchDeal {
 
         MahjongTile discardedTile = new MahjongTile(suit, value);
 
-        /*
-        // 检查是否可以吃
-        if (isNeighbor(playerIndex)) {
-            Player previousPlayer = players[previousPlayerIndex];
-            if (previousPlayer.chow.canChow(value, tileToDiscard, players[playerIndex])) {
-                System.out.println("玩家 " + (previousPlayerIndex + 1) + " 打出的牌可以吃！");
-                // 提示玩家进行吃操作
-                System.out.println("您可以选择吃牌或继续出牌（输入 c 进行吃牌，输入其他任意字符继续出牌）：");
-                String choice = scanner.nextLine();
-                if (choice.equalsIgnoreCase("c")) {
-                    System.out.println("您选择了吃牌：" + discardedTile);
-
-                    // 调用玩家的吃牌方法
-                    players[playerIndex].chow.chowTile(discardedTile,  players[playerIndex]);
-                    clearCurrentChow();
-                    System.out.println("吃牌成功！");
-                    return;
-                } else {
-                    System.out.println("您选择的吃牌方式无效！");
-                }
-            }
-        }
-
-         */
-
         boolean found = false;
         for (MahjongTile tile2 : players[0].getHand()) {
             if (tile2.getValue() == value && tile2.getSuit().equals(suit)) {
@@ -92,16 +67,14 @@ public class TouchDeal {
             discardTile();
             return;
         }
+
+        // 检查玩家是否可以吃牌
+        if (chow.canChow(discardedTile, playerIndex, players, computers)) {
+            chow.chowTile(discardedTile, playerIndex);
+        }
+
         System.out.println("Player 出了一张牌：" + discardedTile);
         System.out.println();
-        //DiscardedTile(discardedTile);
-        //MahjongTile tile = new MahjongTile(tileToDiscard, value);
         dealTile(discardedTile);
-    }
-
-    private boolean isNeighbor(int playerIndex, int previousPlayerIndex) {
-        int numPlayers = players.length;
-        int nextPlayerIndex = (previousPlayerIndex + 1) % numPlayers;
-        return playerIndex == nextPlayerIndex;
     }
 }

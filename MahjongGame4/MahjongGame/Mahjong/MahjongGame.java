@@ -9,6 +9,7 @@ import Players.Computers;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -17,10 +18,10 @@ public class MahjongGame extends Frame {
     private Player player;
     private Player[] players;
     private int playerIndex;
+    private MahjongTile discardTile;
     private Computers computer;
     private Computers[] computers;
     private GameBackGround gameBackGround;
-    private Scanner scanner;
     private TouchDeal touchDeal;
     private Chow chow;
     private Peng peng;
@@ -29,34 +30,31 @@ public class MahjongGame extends Frame {
     private static boolean gameOver = false;
 
     //创建一个用来存放玩家们出牌的列表
-    private ArrayList<MahjongTile> tileList = new ArrayList<>(4);
+    public ArrayList<MahjongTile> tileList = new ArrayList<>(4);
 
 
     public MahjongGame () {
-        //scanner = new Scanner(System.in);
         deck = new MahjongDeck();
 
         //总共四个玩家（一位玩家和三位电脑玩家），顺序是0,1,2,3
         playerIndex = 0;
 
-        //先不加UI的测试
-        //setUI();
-
-
         //初始一张临时麻将牌（我也不确定干啥用的）
-        MahjongTile discardTile = new MahjongTile("初始值", 0);
+        discardTile = new MahjongTile("初始值", 0);
 
         //创建一位玩家
         players = new Player[1];
-        players[0] = new Player(discardTile);
+        players[0] = new Player(discardTile, players, computers);
 
         //创建三个电脑
         computers = new Computers[3];
         for (int i = 0; i < 3; i++) {
-            computers[i] = new Computers(discardTile);
+            computers[i] = new Computers(discardTile, players, computers);
         }
 
         //初始化各个规则功能模块
+        player = new Player(discardTile, players, computers);
+        computer = new Computers(discardTile, players, computers);
         touchDeal = new TouchDeal(players, computers);
         chow = new Chow(discardTile, players, computers);
         peng = new Peng(discardTile, players, computers);
@@ -99,6 +97,7 @@ public class MahjongGame extends Frame {
             //System.out.println(computers[i].getHand());
         }
 
+
     }
 
     public void updatePlayerHands() {
@@ -111,6 +110,7 @@ public class MahjongGame extends Frame {
             System.out.println();
         }
         playerIndex = (playerIndex + 1) % 4;
+
     }
 
 /*
