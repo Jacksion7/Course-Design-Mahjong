@@ -3,23 +3,24 @@ package Mahjong;
 import GameRules.*;
 import GameRules.TouchDeal;
 import Players.Player;
+import Players.Computers;
+
+import Players.PlayerBase;
 
 import UI.GameBackGround;
-import Players.Computers;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.List;
 
 
 public class MahjongGame extends Frame {
     private MahjongDeck deck;
-    private Player player;
     private Player[] players;
     private int playerIndex;
+    private List<PlayerBase> playerList;
     private MahjongTile discardTile;
-    private Computers computer;
     private Computers[] computers;
     private GameBackGround gameBackGround;
     private TouchDeal touchDeal;
@@ -29,8 +30,6 @@ public class MahjongGame extends Frame {
     private Win win;
     private static boolean gameOver = false;
 
-    //创建一个用来存放玩家们出牌的列表
-    public ArrayList<MahjongTile> tileList = new ArrayList<>(4);
 
     public MahjongGame () {
         deck = new MahjongDeck();
@@ -51,15 +50,35 @@ public class MahjongGame extends Frame {
             computers[i] = new Computers(discardTile, players, computers);
         }
 
+        playerList = new ArrayList<>();
+        // 添加玩家
+        playerList.add(players[0]);
+        // 添加电脑玩家
+        playerList.addAll(Arrays.asList(computers));
+
         //初始化各个规则功能模块
-        player = new Player(discardTile, players, computers);
-        computer = new Computers(discardTile, players, computers);
+        //player = new Player(discardTile, players, computers);
+        //computer = new Computers(discardTile, players, computers);
         touchDeal = new TouchDeal(players, computers);
         chow = new Chow(discardTile, players, computers);
         peng = new Peng(discardTile, players, computers);
         gang = new Gang(discardTile, players, computers);
         win = new Win(players, computers);
 
+    }
+
+/*
+    public static void main(String[] args) {
+        MahjongGame game = new MahjongGame();
+        System.out.println(game.getPlayerList());
+        System.out.println(game.playerList.get(game.getPlayerIndex()));
+    }
+
+ */
+
+
+    public List<PlayerBase> getPlayerList() {
+        return playerList;
     }
     public int getPlayerIndex() {
         return playerIndex = (playerIndex + 1) % 4;
@@ -90,13 +109,6 @@ public class MahjongGame extends Frame {
                 computers[i].drawTile(tile);
             }
         }
-
-        //System.out.println(players[0].getHand());
-        for (int i = 0; i < 3; i++) {
-            //System.out.println(computers[i].getHand());
-        }
-
-
     }
 
     public void updatePlayerHands() {
@@ -111,18 +123,6 @@ public class MahjongGame extends Frame {
         playerIndex = (playerIndex + 1) % 4;
 
     }
-
-/*
-    public static void main(String[] args) {
-        MahjongGame game = new MahjongGame();
-        game.dealTiles();
-        game.updatePlayerHands();
-
-    }
-
- */
-
-
 
     public void update(Graphics g){
         gameBackGround.draw(g);
@@ -175,6 +175,8 @@ public class MahjongGame extends Frame {
         MahjongGame game = new MahjongGame();
         game.playGame();
         }
+
+
 
 
 

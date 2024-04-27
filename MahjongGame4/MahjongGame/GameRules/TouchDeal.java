@@ -1,36 +1,24 @@
 package GameRules;
 
-import Mahjong.MahjongDeck;
 import Mahjong.MahjongTile;
 import Players.Computers;
 import Players.Player;
 
 import java.util.Scanner;
-import java.util.List;
-import java.util.Iterator;
 
 
 public class TouchDeal {
     private Player[] players;
-    private Player player;
     private Computers[] computers;
-    private Computers computer;
     private Scanner scanner;
-    private MahjongTile discardedTile;
     private Chow chow;
-    private MahjongDeck deck;
     private int playerIndex;
 
     public TouchDeal(Player[] players, Computers[] computers) {
         this.players = players;
         this.computers = computers;
-        this.deck = new MahjongDeck();
         this.scanner = new Scanner(System.in);
-        this.chow = new Chow(discardedTile, players, computers);
-    }
-
-    public void DiscardedTile(MahjongTile tile) {
-        this.discardedTile = tile;
+        this.chow = new Chow(null, players, computers);
     }
 
     public void dealTile(MahjongTile tile) {
@@ -69,9 +57,7 @@ public class TouchDeal {
         }
 
         // 检查玩家是否可以吃牌
-        if (chow.canChow(discardedTile, playerIndex, players, computers)) {
-            chow.chowTile(discardedTile, playerIndex);
-        }
+        chow.chowTile(discardedTile, playerIndex);
 
         System.out.println("Player 出了一张牌：" + discardedTile);
         System.out.println();

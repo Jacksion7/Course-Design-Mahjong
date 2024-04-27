@@ -36,8 +36,7 @@ public class MahjongDeck {
             return null;
         }
         int index = random.nextInt(tilesLibrary.size());
-        MahjongTile tile = tilesLibrary.remove(index);
-        return tile;
+        return tilesLibrary.remove(index);
     }
 
     /*
