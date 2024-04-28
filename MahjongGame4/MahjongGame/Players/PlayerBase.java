@@ -15,11 +15,11 @@ public abstract class PlayerBase {
     protected Random random;
     protected Chow chow;
 
-    public PlayerBase(MahjongTile discardedTile, Player[] players, Computers[] computers) {
+    public PlayerBase(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         hand = new ArrayList<>();
         random = new Random();
         deck = new MahjongDeck();
-        chow = new Chow(discardedTile, players, computers);
+        chow = new Chow(discardedTile, players, computers, playerIndex);
     }
 
     public List<MahjongTile> getHand() {

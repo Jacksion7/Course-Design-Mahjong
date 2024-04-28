@@ -3,7 +3,6 @@ package GameRules;
 import Mahjong.MahjongTile;
 import Players.Computers;
 import Players.Player;
-import Players.PlayerBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +13,12 @@ public class Chow {
     private Computers[] computers;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
-    public Chow(MahjongTile discardedTile, Player[] players, Computers[] computers) {
+    private int playerIndex;
+    public Chow(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         this.discardedTile = discardedTile;
         this.players = players;
         this.computers = computers;
+        this.playerIndex = playerIndex;
     }
 
     /*
@@ -26,6 +27,7 @@ public class Chow {
     所以应该是到下家摸牌之前，判断能不能进行吃牌操作。
 
      */
+
     public int getNextPlayer(int playerIndex) {
         return (playerIndex + 1) % 4;
     }
@@ -109,7 +111,6 @@ public class Chow {
         return false;
     }
 
-
     // 检查玩家手牌中是否存在指定牌值和类型的牌
     private boolean tileExists(int value, String suit, int nextPlayer, Player[] players, Computers[] computers) {
         List<MahjongTile> hand = (nextPlayer == 0) ? players[0].getHand() : computers[nextPlayer - 1].getHand();
@@ -120,8 +121,6 @@ public class Chow {
         }
         return false;
     }
-
-
 
     public void chowTile(MahjongTile discardedTile, int playerIndex) {
         // 检查是否可以吃牌
@@ -137,11 +136,18 @@ public class Chow {
             hand.remove(secondTile);
             hand.remove(thirdTile);
 
+            System.out.println(playerIndex + 1);
             // 输出吃牌信息
-            System.out.println("玩家" + playerIndex + 1 + "吃牌成功：" + rulesTiles);
+            System.out.println("玩家" + (playerIndex + 1) + "吃牌成功：" + rulesTiles);
         } else {
             System.out.println("当前玩家无法吃牌！");
         }
     }
+
+
+    public boolean hasChowed(MahjongTile discardedTile, int playerIndex, Player[] players, Computers[] computers) {
+        return canChow(discardedTile, playerIndex, players, computers);
+    }
+
 
 }

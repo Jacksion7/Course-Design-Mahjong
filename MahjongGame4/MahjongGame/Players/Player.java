@@ -3,25 +3,17 @@ package Players;
 import GameRules.Chow;
 import Mahjong.MahjongTile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.Scanner;
 
-/*对于这个类，我们需要的是一个玩家类
- *玩家类应该包含以下属性：
- *玩家的手牌（hand）
- *手牌的更新方法（updateHand）
- *四个玩家的每回合操作（playIndex）
- *手牌的排序方法（sortHand, getSuitOrder）
- *
 
- */
 public class Player extends PlayerBase {
     public Chow chow;
+    private Scanner scanner;
 
-    public Player(MahjongTile discardedTile, Player[] players, Computers[] computers) {
-        super(discardedTile, players, computers);
-        chow = new Chow(discardedTile, players, computers);
+    public Player(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
+        super(discardedTile, players, computers, playerIndex);
+        this.scanner = new Scanner(System.in);
+        chow = new Chow(discardedTile, players, computers, playerIndex);
     }
 
     public void dealPlayerTile(MahjongTile tile) {
@@ -32,5 +24,15 @@ public class Player extends PlayerBase {
         }
         System.out.println();
     }
+
+    /*
+    public boolean promptPlayerToChow() {
+        System.out.println("Do you want to chow? (Y/N): ");
+        String choice = scanner.nextLine();
+        return choice.equalsIgnoreCase("Y");
+    }
+
+     */
+
 
 }
