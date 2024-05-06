@@ -16,7 +16,7 @@ public class BackGroundPicture extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // 加载图片文件
-                Image image = new ImageIcon("imgSet/麻将桌.png").getImage();
+                Image image = new ImageIcon("MahjongGame4/imgSet/麻将桌.png").getImage();
                 // 绘制图片
                 g.drawImage(image, 0, 0, this);
             }
