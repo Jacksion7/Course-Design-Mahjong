@@ -3,9 +3,9 @@ package UI;
 import javax.swing.*;
 import java.awt.*;
 
-public class BackGroundPicture extends JFrame {
+public class PlayScreen extends JFrame {
 
-    public BackGroundPicture() {
+    public PlayScreen() {
         setTitle("Image Frame Example");
         setSize(1000, 1000);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,7 +16,7 @@ public class BackGroundPicture extends JFrame {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // 加载图片文件
-                Image image = new ImageIcon("imgSet/麻将桌.png").getImage();
+                Image image = new ImageIcon("MahjongGame4/imgSet/playBackground.png").getImage();
                 // 绘制图片
                 g.drawImage(image, 0, 0, this);
             }
