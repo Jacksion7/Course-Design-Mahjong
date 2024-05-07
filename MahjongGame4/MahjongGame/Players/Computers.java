@@ -21,8 +21,11 @@ public class Computers extends PlayerBase {
         // 电脑玩家的回合
         if (true) {
 
+            // 在网上查找的资料中，先判断是否能吃商家的牌再决定是否摸牌
+            // 在这里是先摸牌了，但直接修改的话逻辑会出错
             MahjongTile tileDrawn = deck.drawTile();
-            System.out.println("Player " + playerIndex + "摸到了一张牌：" + tileDrawn);
+            System.out.println("Computer " + playerIndex + "摸到了一张牌：" + tileDrawn);
+            // 加入到手牌中
             drawTile(tileDrawn);
 
 
@@ -35,7 +38,7 @@ public class Computers extends PlayerBase {
                 // 如果电脑玩家没有吃过牌，则进行吃牌判断
                 tileToPlay = chowTileOrPlay(tileToPlay, playerIndex);
             }
-            System.out.println(chow.hasChowed(tileToPlay, playerIndex, players, computers));
+            System.out.println("电脑是否吃牌： " + chow.hasChowed(tileToPlay, playerIndex, players, computers));
             System.out.println("出的牌：" + tileToPlay);
             hand.remove(tileToPlay);
             System.out.println("电脑 " + playerIndex + " 出了一张牌：" + tileToPlay);
