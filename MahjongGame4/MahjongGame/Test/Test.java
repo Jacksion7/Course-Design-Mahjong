@@ -1,8 +1,5 @@
 package Test;
 
-import Mahjong.MahjongDeck;
-import Mahjong.MahjongTile;
-
 public class Test {
     /*public static void main(String[] args) {
         testMahjongTile();

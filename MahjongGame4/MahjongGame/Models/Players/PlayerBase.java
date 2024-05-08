@@ -1,8 +1,8 @@
-package Players;
+package Models.Players;
 
-import GameRules.Chow;
-import Mahjong.MahjongDeck;
-import Mahjong.MahjongTile;
+import Models.GameRules.Chow;
+import Models.MahjongDeck;
+import Models.MahjongTile;
 
 import java.util.ArrayList;
 import java.util.Collections;

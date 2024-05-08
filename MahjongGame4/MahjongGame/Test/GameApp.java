@@ -1,7 +1,7 @@
 package Test;
 
-import UI.MenuScreen;
-import UI.PlayScreen;
+import Viewers.MenuScreen;
+import Viewers.PlayScreen;
 
 public class GameApp {
 

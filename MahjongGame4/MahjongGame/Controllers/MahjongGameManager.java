@@ -1,4 +1,4 @@
-package Mahjong;
+package Controllers;
 
 public class MahjongGameManager {
 

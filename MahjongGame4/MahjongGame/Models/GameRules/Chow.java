@@ -1,8 +1,7 @@
-package GameRules;
-
-import Mahjong.MahjongTile;
-import Players.Computers;
-import Players.Player;
+package Models.GameRules;
+import Models.MahjongTile;
+import Models.Players.Computers;
+import Models.Players.Player;
 
 import java.util.ArrayList;
 import java.util.List;

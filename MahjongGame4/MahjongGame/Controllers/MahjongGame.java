@@ -1,9 +1,12 @@
-package Mahjong;
+package Controllers;
 
-import GameRules.TouchDeal;
-import Players.Player;
-import Players.Computers;
-import GameRules.Chow;
+import Models.MahjongDeck;
+import Models.MahjongTile;
+import Models.GameRules.TouchDeal;
+import Models.Players.Player;
+import Models.Players.Computers;
+import Models.GameRules.Chow;
+import Viewers.GameScreen;
 
 
 public class MahjongGame {
@@ -16,6 +19,7 @@ public class MahjongGame {
     private Chow chow;
     private static boolean gameOver = false;
     private MahjongTile discardTile;
+    private GameScreen gameScreen;
 
 
     public MahjongGame () {
