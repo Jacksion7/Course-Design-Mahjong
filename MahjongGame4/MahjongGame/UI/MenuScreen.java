@@ -29,12 +29,6 @@ public class MenuScreen extends JFrame {
                 g.drawImage(controlMenu,430,700,200,200,this);
                 g.drawImage(highScore,730,700,200,200,this);
                 g.drawImage(menuTitle,300,0,400,400,this);
-//                int fontSize = 80;
-//                Font font = new Font("Monotype Corsiva", Font.PLAIN, fontSize);
-//                g.setFont(font);
-//                Color deepYellow = new Color(191, 144, 0);
-//                g.setColor(deepYellow);
-//                g.drawString("Mahjong Game",200, 200);
 
 
             }
