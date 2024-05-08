@@ -1,4 +1,4 @@
-package Mahjong;
+package Models;
 
 import java.util.Objects;
 

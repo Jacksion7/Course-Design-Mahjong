@@ -1,4 +1,6 @@
-package Mahjong;
+package Models;
+
+import Models.MahjongTile;
 
 import java.util.ArrayList;
 import java.util.List;

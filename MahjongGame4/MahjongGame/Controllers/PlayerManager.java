@@ -1,7 +1,9 @@
-package Mahjong;
+package Controllers;
 
-import Players.Computers;
-import Players.Player;
+import Models.MahjongDeck;
+import Models.MahjongTile;
+import Models.Players.Computers;
+import Models.Players.Player;
 
 public class PlayerManager {
 

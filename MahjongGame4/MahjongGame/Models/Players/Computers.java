@@ -1,7 +1,7 @@
-package Players;
+package Models.Players;
 
-import GameRules.Chow;
-import Mahjong.MahjongTile;
+import Models.GameRules.Chow;
+import Models.MahjongTile;
 
 
 public class Computers extends PlayerBase {

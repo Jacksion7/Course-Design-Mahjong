@@ -1,10 +1,9 @@
-package GameRules;
+package Models.GameRules;
 
-import Mahjong.MahjongDeck;
-import Mahjong.MahjongTile;
-import Players.Computers;
-import Players.Player;
-
+import Models.MahjongDeck;
+import Models.Players.Computers;
+import Models.Players.Player;
+import Models.MahjongTile;
 import java.util.Scanner;
 
 

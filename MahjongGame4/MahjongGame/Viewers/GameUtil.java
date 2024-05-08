@@ -1,4 +1,4 @@
-package UI;
+package Viewers;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
