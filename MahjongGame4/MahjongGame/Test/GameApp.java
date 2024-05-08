@@ -1,11 +1,14 @@
 package Test;
 
-import UI.BackGroundPicture;
+import UI.MenuScreen;
+import UI.PlayScreen;
 
 public class GameApp {
 
     public static void main(String[] args) {
-        BackGroundPicture frame = new BackGroundPicture();
+        MenuScreen menuScreen = new MenuScreen();
+        menuScreen.setVisible(true);
+        PlayScreen frame = new PlayScreen();
         frame.setVisible(true);
     }
 }
