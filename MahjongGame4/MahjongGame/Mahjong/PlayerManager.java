@@ -30,6 +30,8 @@ public class PlayerManager {
         return computers;
     }
 
+    // 遍历四个玩家（包括一个玩家和三个电脑玩家），每人发 13 张牌，
+    // 从麻将牌堆抓牌，并调用相应玩家对象的 drawTile() 方法进行发牌。
     public void dealTiles() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
