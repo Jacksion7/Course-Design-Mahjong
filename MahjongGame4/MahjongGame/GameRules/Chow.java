@@ -3,6 +3,7 @@ package GameRules;
 import Mahjong.MahjongTile;
 import Players.Computers;
 import Players.Player;
+import Item.PlayerBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 public class Chow {
     private MahjongTile discardedTile;
     private Player[] players;
+    private PlayerBase playerBase;
     private Computers[] computers;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
@@ -142,6 +144,8 @@ public class Chow {
             rulesTiles.add(discardedTile);
             rulesTiles.add(secondTile);
             rulesTiles.add(thirdTile);
+            playerBase.sortHand();
+
             // 从手牌中移除被吃的牌
             List<MahjongTile> hand = (playerIndex == 0) ? players[0].getHand() : computers[playerIndex - 1].getHand();
             hand.remove(secondTile);

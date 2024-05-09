@@ -1,7 +1,8 @@
 package Mahjong;
 
-public class MahjongGameManager {
+import Item.Game;
 
+public class MahjongGameManager implements Game {
     private MahjongGame mahjongGame;
 
     public MahjongGameManager() {
@@ -14,8 +15,18 @@ public class MahjongGameManager {
         System.out.println("游戏结束！");
     }
 
+    @Override
+    public void playGame() {
+        startGame();
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return mahjongGame.isGameOver();
+    }
+
     public static void main(String[] args) {
         MahjongGameManager gameManager = new MahjongGameManager();
-        gameManager.startGame();
+        gameManager.playGame(); // 调用抽象方法
     }
 }
