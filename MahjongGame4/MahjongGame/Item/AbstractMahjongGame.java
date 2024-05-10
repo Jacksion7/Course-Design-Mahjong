@@ -8,7 +8,7 @@ import Mahjong.PlayerManager;
 import Players.Computers;
 import Players.Player;
 
-public abstract class AbstractMahjongGame implements Game {
+public abstract class AbstractMahjongGame implements Game2 {
     protected Player[] players;
     protected Computers[] computers;
     protected MahjongDeck deck;

@@ -1,6 +1,6 @@
 package Item;
 
-public interface Game {
+public interface Game2 {
     void playGame();
     boolean isGameOver();
 }
