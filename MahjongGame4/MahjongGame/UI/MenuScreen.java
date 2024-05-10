@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuScreen extends JPanel {
-    private MahjongGameManager game;
+
 
     protected void paintComponent(Graphics g) {
 
@@ -20,10 +20,10 @@ public class MenuScreen extends JPanel {
 
             // 绘制图片
             g.drawImage(image, 0, 0, this);
-            g.drawImage(startGame,130,700,200,200,this);
-            g.drawImage(controlMenu,430,700,200,200,this);
-            g.drawImage(highScore,730,700,200,200,this);
-            g.drawImage(menuTitle,300,0,400,400,this);
+            g.drawImage(startGame, 130, 700, 200, 200, this);
+            g.drawImage(controlMenu, 430, 700, 200, 200, this);
+            g.drawImage(highScore, 730, 700, 200, 200, this);
+            g.drawImage(menuTitle, 300, 0, 400, 400, this);
 
 
     }

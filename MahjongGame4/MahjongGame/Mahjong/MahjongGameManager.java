@@ -7,29 +7,31 @@ import ucd.comp2011j.engine.Game;
 import static UI.Constant.SCREEN_HEIGHT;
 import static UI.Constant.SCREEN_WIDTH;
 
-public class MahjongGameManager implements Game ,Game2{
+public class MahjongGameManager implements Game {
     private MahjongGame mahjongGame;
 
     private int playerLives;
     private int playerScore;
 
+
     private PlayerListener listener;
     // zzq add a parameter to the  MahjongGameManager, for connect the UI screens together
     public MahjongGameManager(PlayerListener listener) {
-        mahjongGame = new MahjongGame();
+        this.listener = listener;
+        //mahjongGame = new MahjongGame();
     }
 
-    public void startGame() {
-        System.out.println("游戏开始！");
-        mahjongGame.playGame();
-        System.out.println("游戏结束！");
-    }
-
-
-    @Override
-    public void playGame() {
-        startGame();
-    }
+//    public void startGame() {
+//        System.out.println("游戏开始！");
+//        mahjongGame.playGame();
+//        System.out.println("游戏结束！");
+//    }
+//
+//
+//    @Override
+//    public void playGame() {
+//        startGame();
+//    }
 
     // use the engine in thr libs, hence zzq need implement the  ucd.comp2011j.engine.Game;
     // instead of Item.Game;
