@@ -1,13 +1,16 @@
-package Mahjong;
+package UI;
 
-import Item.Game2;
+
+
+//import Item.Game;
+import Mahjong.MahjongGame;
 import UI.PlayerListener;
 import ucd.comp2011j.engine.Game;
 
 import static UI.Constant.SCREEN_HEIGHT;
 import static UI.Constant.SCREEN_WIDTH;
 
-public class MahjongGameManager implements Game ,Game2{
+public class MahjongGameManager_copy implements Game {
     private MahjongGame mahjongGame;
 
     private int playerLives;
@@ -15,7 +18,7 @@ public class MahjongGameManager implements Game ,Game2{
 
     private PlayerListener listener;
     // zzq add a parameter to the  MahjongGameManager, for connect the UI screens together
-    public MahjongGameManager(PlayerListener listener) {
+    public MahjongGameManager_copy(PlayerListener listener) {
         mahjongGame = new MahjongGame();
     }
 
@@ -26,10 +29,10 @@ public class MahjongGameManager implements Game ,Game2{
     }
 
 
-    @Override
-    public void playGame() {
-        startGame();
-    }
+//    @Override
+//    public void playGame() {
+//        startGame();
+//    }
 
     // use the engine in thr libs, hence zzq need implement the  ucd.comp2011j.engine.Game;
     // instead of Item.Game;
