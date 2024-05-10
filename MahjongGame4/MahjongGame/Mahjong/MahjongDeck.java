@@ -1,10 +1,13 @@
 package Mahjong;
 
+import Item.Deck;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MahjongDeck {
+public class MahjongDeck implements Deck {
     //牌库
     private List<MahjongTile> tilesLibrary;
     //随机数生成器
@@ -13,7 +16,10 @@ public class MahjongDeck {
     public MahjongDeck() {
         tilesLibrary = new ArrayList<>();
         random = new Random();
+        initializeTiles();
+    }
 
+    private void initializeTiles() {
         //初始化牌库
         for (int i = 1; i <= 9; i++) {
             for (int j = 0; j < 4; j++) {
@@ -38,12 +44,5 @@ public class MahjongDeck {
         int index = random.nextInt(tilesLibrary.size());
         return tilesLibrary.remove(index);
     }
-
-    /*
-    public List<MahjongTile> getTilesLibrary() {
-        return tilesLibrary;
-    }
-     */
-
 
 }

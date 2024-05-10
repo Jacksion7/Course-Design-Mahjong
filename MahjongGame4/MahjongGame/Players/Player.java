@@ -1,19 +1,18 @@
 package Players;
 
-import GameRules.Chow;
+import Item.PlayerBase;
 import Mahjong.MahjongTile;
 
 import java.util.Scanner;
 
 
 public class Player extends PlayerBase {
-    public Chow chow;
     private Scanner scanner;
 
     public Player(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         super(discardedTile, players, computers, playerIndex);
         this.scanner = new Scanner(System.in);
-        chow = new Chow(discardedTile, players, computers, playerIndex);
+        //chow = new Chow(discardedTile, players, computers, playerIndex);
     }
 
     public void dealPlayerTile(MahjongTile tile) {
@@ -25,14 +24,6 @@ public class Player extends PlayerBase {
         System.out.println();
     }
 
-    /*
-    public boolean promptPlayerToChow() {
-        System.out.println("Do you want to chow? (Y/N): ");
-        String choice = scanner.nextLine();
-        return choice.equalsIgnoreCase("Y");
-    }
-
-     */
 
 
 }

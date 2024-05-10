@@ -1,8 +1,10 @@
-package Players;
+package Item;
 
 import GameRules.Chow;
 import Mahjong.MahjongDeck;
 import Mahjong.MahjongTile;
+import Players.Computers;
+import Players.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,11 +17,17 @@ public abstract class PlayerBase {
     protected Random random;
     protected Chow chow;
 
+    protected Player[] players;
+
+    protected Computers[] computers;
+
     public PlayerBase(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         hand = new ArrayList<>();
         random = new Random();
         deck = new MahjongDeck();
         chow = new Chow(discardedTile, players, computers, playerIndex);
+        this.players = players;
+        this.computers = computers;
     }
 
     public List<MahjongTile> getHand() {
@@ -50,28 +58,18 @@ public abstract class PlayerBase {
     }
 
     private int getSuitOrder(String suit) {
-        switch (suit) {
-            case "万":
-                return 0;
-            case "条":
-                return 1;
-            case "筒":
-                return 2;
-            case "东":
-                return 3;
-            case "西":
-                return 4;
-            case "南":
-                return 5;
-            case "北":
-                return 6;
-            case "中":
-                return 7;
-            case "发":
-                return 8;
-            default:
-                return 9;
-        }
+        return switch (suit) {
+            case "万" -> 0;
+            case "条" -> 1;
+            case "筒" -> 2;
+            case "东" -> 3;
+            case "西" -> 4;
+            case "南" -> 5;
+            case "北" -> 6;
+            case "中" -> 7;
+            case "发" -> 8;
+            default -> 9;
+        };
     }
 }
 
