@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameScreen extends JPanel {
-    private MahjongGameManager game;
+    final MahjongGameManager game;
 
     public GameScreen(MahjongGameManager game) {
         this.game = game;
@@ -15,7 +15,6 @@ public class GameScreen extends JPanel {
     protected void paintComponent(Graphics g) {
 
         if (game != null) {
-            Graphics2D g2 = (Graphics2D) g;
             Image image = new ImageIcon("MahjongGame4/imgSet/playBackground.png").getImage();
             Image player1 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/player1.png").getImage();
             Image player2 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/player2.png").getImage();
@@ -39,6 +38,7 @@ public class GameScreen extends JPanel {
 //            }
         }
     }
+
 
 }
 
