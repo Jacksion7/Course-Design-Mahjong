@@ -7,7 +7,7 @@ import ucd.comp2011j.engine.Game;
 import static UI.Constant.SCREEN_HEIGHT;
 import static UI.Constant.SCREEN_WIDTH;
 
-public class MahjongGameManager implements Game {
+public class MahjongGameManager implements Game ,Game2{
     private MahjongGame mahjongGame;
 
     private int playerLives;
@@ -21,17 +21,18 @@ public class MahjongGameManager implements Game {
         //mahjongGame = new MahjongGame();
     }
 
-//    public void startGame() {
-//        System.out.println("游戏开始！");
-//        mahjongGame.playGame();
-//        System.out.println("游戏结束！");
-//    }
-//
-//
-//    @Override
-//    public void playGame() {
-//        startGame();
-//    }
+
+    public void startGame() {
+        System.out.println("游戏开始！");
+        mahjongGame.playGame();
+        System.out.println("游戏结束！");
+    }
+
+
+    @Override
+    public void playGame() {
+        startGame();
+    }
 
     // use the engine in thr libs, hence zzq need implement the  ucd.comp2011j.engine.Game;
     // instead of Item.Game;
@@ -102,8 +103,12 @@ public class MahjongGameManager implements Game {
     }
 
 
-//    public static void main(String[] args) {
-//        MahjongGameManager gameManager = new MahjongGameManager();
+    public static void main(String[] args) {
+        MahjongGame mahjongGame1 = new MahjongGame();
+         mahjongGame1.dealTiles();
+
+//        PlayerListener playerListener = new PlayerListener();
+//        MahjongGameManager gameManager = new MahjongGameManager(playerListener);
 //        gameManager.playGame(); // 调用抽象方法
-//    }
+    }
 }

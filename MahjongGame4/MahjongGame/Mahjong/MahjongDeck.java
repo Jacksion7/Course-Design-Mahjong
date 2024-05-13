@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class MahjongDeck implements Deck {
     //牌库
-    private List<MahjongTile> tilesLibrary;
+    final List<MahjongTile> tilesLibrary;
     //随机数生成器
     private Random random;
 
@@ -45,4 +45,7 @@ public class MahjongDeck implements Deck {
         return tilesLibrary.remove(index);
     }
 
+    public List<MahjongTile> getTilesLibrary() {
+        return tilesLibrary;
+    }
 }

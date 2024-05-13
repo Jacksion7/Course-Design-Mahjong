@@ -42,4 +42,8 @@ public class MahjongGame extends AbstractMahjongGame {
         }
         playerIndex = (playerIndex + 1) % 4;
     }
+
+
+
+
 }
