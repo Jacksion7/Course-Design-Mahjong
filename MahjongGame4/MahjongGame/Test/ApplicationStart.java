@@ -1,6 +1,7 @@
 package Test;
 
 
+import Mahjong.MahjongGame;
 import Mahjong.MahjongGameManager;
 import UI.*;
 import ucd.comp2011j.engine.GameManager;
@@ -23,12 +24,16 @@ public class ApplicationStart {
         mainWindow.addKeyListener(menuListener);
 
         MahjongGameManager game = new MahjongGameManager(playerListener);
-        GameScreen gameScreen = new GameScreen(game);
-        MenuScreen menuScreen = new MenuScreen();
+       // MahjongGame game =new MahjongGame(playerListener);
+        //GameScreen gameScreen = new GameScreen(game);
+        //MenuScreen menuScreen = new MenuScreen();
+        //MahjongGame mahjongGame= new MahjongGame();
+        //game.playGame();
+
         ScoreKeeper scoreKeeper = new ScoreKeeper("scores.txt");
 
-        GameManager mmm = new GameManager(game, mainWindow, menuListener, menuScreen, new AboutScreen(), new ScoreScreen(scoreKeeper), gameScreen, scoreKeeper);
+       // GameManager mmm = new GameManager(game, mainWindow, menuListener, menuScreen, new AboutScreen(), new ScoreScreen(scoreKeeper), gameScreen, scoreKeeper);
         mainWindow.setVisible(true);
-        mmm.run();
+       // mmm.run();
     }
 }

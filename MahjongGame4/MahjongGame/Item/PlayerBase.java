@@ -13,11 +13,11 @@ import java.util.Random;
 
 public abstract class PlayerBase {
     protected MahjongDeck deck;
-    protected List<MahjongTile> hand;
+    public List<MahjongTile> hand;
     protected Random random;
     protected Chow chow;
 
-    protected Player[] players;
+    public Player[] players;
 
     protected Computers[] computers;
 

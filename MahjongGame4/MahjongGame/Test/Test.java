@@ -1,14 +1,18 @@
 package Test;
 
 import Mahjong.MahjongDeck;
+import Mahjong.MahjongGame;
 import Mahjong.MahjongTile;
 
 public class Test {
     public static void main(String[] args) {
-        testMahjongTile();
-        testMahjongDeck();
+//        testMahjongTile();
+//        testMahjongDeck();
     }
 
+    public static void dealMahjongTile(){
+
+    }
     public static void testMahjongTile() {
         MahjongTile tile = new MahjongTile("万", 1);
         System.out.println("Suit: " + tile.getSuit());
