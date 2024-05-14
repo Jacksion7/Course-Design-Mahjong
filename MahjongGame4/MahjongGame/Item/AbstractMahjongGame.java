@@ -9,7 +9,7 @@ import Players.Computers;
 import Players.Player;
 
 public abstract class AbstractMahjongGame implements Game2 {
-    protected Player[] players;
+    public Player[] players;
     protected Computers[] computers;
     protected MahjongDeck deck;
     protected TouchDeal touchDeal;
@@ -26,16 +26,17 @@ public abstract class AbstractMahjongGame implements Game2 {
         chow = new Chow(discardTile, players, computers, playerIndex);
     }
 
-    @Override
-    public void playGame() {
-        dealTiles();
-        while (!isGameOver()) {
-            testDrawAndDiscard();
-            playComputerTurn();
-        }
-    }
+//    @Override
+//    public void playGame() {
+//        dealTiles();
+//
+//        while (!isGameOver()) {
+//            testDrawAndDiscard();
+//            playComputerTurn();
+//        }
+//    }
 
-    protected abstract void dealTiles();
+    //protected abstract void dealTiles();
 
     protected abstract void testDrawAndDiscard();
 
@@ -51,7 +52,7 @@ public abstract class AbstractMahjongGame implements Game2 {
         return gameOver = false;
     }
 
-    protected void playComputerTurn() {
+    public void playComputerTurn() {
         for (int i = 0; i < 3; i++) {
             System.out.println("电脑 " + (i + 1) + " 的回合：");
             updatePlayerHands();
