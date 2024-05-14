@@ -18,11 +18,14 @@ public class TouchDeal {
     private int playerIndex;
     private MahjongTile discardedTile;
 
+    private Peng peng;
+
     public TouchDeal(Player[] players, Computers[] computers) {
         this.players = players;
         this.computers = computers;
         this.scanner = new Scanner(System.in);
         this.chow = new Chow(discardedTile, players, computers, playerIndex);
+        this.peng = new Peng(discardedTile, players, computers);
     }
 
     public void discardTile() {
@@ -58,6 +61,7 @@ public class TouchDeal {
         System.out.println("Player 出了一张牌：" + discardedTile);
         System.out.println();
 
+//        pengTile(playerIndex);
         chowTile(discardedTile, playerIndex);
 
     }
@@ -69,6 +73,9 @@ public class TouchDeal {
             }
         }
         return false;
+    }
+    private void pengTile(int playerIndex){
+        peng.pengTile(playerIndex);
     }
 
     private void chowTile(MahjongTile discardedTile, int playerIndex) {
