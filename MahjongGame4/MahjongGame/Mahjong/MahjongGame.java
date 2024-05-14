@@ -2,9 +2,12 @@ package Mahjong;
 
 import GameRules.TouchDeal;
 import Item.AbstractMahjongGame;
+import UI.PlayerListener;
+import ucd.comp2011j.engine.Game;
 
 
-public class MahjongGame extends AbstractMahjongGame {
+public class MahjongGame extends AbstractMahjongGame  {
+
     @Override
     protected void dealTiles() {
         for (int i = 0; i < 4; i++) {
@@ -42,8 +45,6 @@ public class MahjongGame extends AbstractMahjongGame {
         }
         playerIndex = (playerIndex + 1) % 4;
     }
-
-
 
 
 }

@@ -11,6 +11,8 @@ public class MenuListener implements MenuCommands, KeyListener {
     private boolean menu;
     private boolean newGame;
 
+    private int timesOfNewGame=0;
+
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'A' || e.getKeyChar() == 'a') {
@@ -23,6 +25,7 @@ public class MenuListener implements MenuCommands, KeyListener {
             menu = true;
         } else if (e.getKeyChar() == 'N' || e.getKeyChar() == 'n') {
             newGame = true;
+            timesOfNewGame+=1;
         }
     }
 
@@ -65,7 +68,11 @@ public class MenuListener implements MenuCommands, KeyListener {
     public void resetKeyPresses() {
         menu = false;
         about = false;
-        newGame = false;
+        if(timesOfNewGame>=1){
+            newGame = true;
+        }else {
+            newGame=false;
+        }
         high = false;
         exit = false;
     }

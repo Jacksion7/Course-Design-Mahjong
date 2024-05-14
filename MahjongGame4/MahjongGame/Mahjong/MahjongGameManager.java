@@ -1,6 +1,7 @@
 package Mahjong;
 
 import Item.Game2;
+import UI.GameScreen;
 import UI.PlayerListener;
 import ucd.comp2011j.engine.Game;
 
@@ -9,23 +10,30 @@ import static UI.Constant.SCREEN_WIDTH;
 
 public class MahjongGameManager implements Game ,Game2{
     private MahjongGame mahjongGame;
-
     private int playerLives;
     private int playerScore;
 
+    private GameScreen gameScreen;
+
 
     private PlayerListener listener;
-    // zzq add a parameter to the  MahjongGameManager, for connect the UI screens together
+
     public MahjongGameManager(PlayerListener listener) {
         this.listener = listener;
-        //mahjongGame = new MahjongGame();
+        mahjongGame = new MahjongGame();
+        gameScreen = new GameScreen();
     }
 
 
     public void startGame() {
         System.out.println("游戏开始！");
+        startGameScreen();
         mahjongGame.playGame();
         System.out.println("游戏结束！");
+    }
+
+    public void startGameScreen(){
+        gameScreen.setVisible(true);
     }
 
 
@@ -104,11 +112,11 @@ public class MahjongGameManager implements Game ,Game2{
 
 
     public static void main(String[] args) {
-        MahjongGame mahjongGame1 = new MahjongGame();
-         mahjongGame1.dealTiles();
-
-//        PlayerListener playerListener = new PlayerListener();
-//        MahjongGameManager gameManager = new MahjongGameManager(playerListener);
-//        gameManager.playGame(); // 调用抽象方法
+//        MahjongGame mahjongGame1 = new MahjongGame();
+//         mahjongGame1.dealTiles();
+//
+        PlayerListener playerListener = new PlayerListener();
+        MahjongGameManager gameManager = new MahjongGameManager(playerListener);
+        gameManager.playGame(); // 调用抽象方法
     }
 }
