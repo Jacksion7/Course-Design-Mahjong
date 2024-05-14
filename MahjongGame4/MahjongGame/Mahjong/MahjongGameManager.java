@@ -1,20 +1,26 @@
 package Mahjong;
 
+import Item.AbstractMahjongGame;
 import Item.Game2;
+import Players.Player;
 import UI.GameScreen;
 import UI.PlayerListener;
 import ucd.comp2011j.engine.Game;
 
+import java.util.List;
+
 import static UI.Constant.SCREEN_HEIGHT;
 import static UI.Constant.SCREEN_WIDTH;
 
-public class MahjongGameManager implements Game ,Game2{
+public class MahjongGameManager extends AbstractMahjongGame implements Game ,Game2   {
     private MahjongGame mahjongGame;
     private int playerLives;
     private int playerScore;
+    public static List<MahjongTile> Player_initial_dealTiles;// connect with Game Screen
 
+    public static Player player;
     private GameScreen gameScreen;
-
+    public static boolean ifDealTiles= false;// connect with Game Screen
 
     private PlayerListener listener;
 
@@ -24,11 +30,46 @@ public class MahjongGameManager implements Game ,Game2{
         gameScreen = new GameScreen();
     }
 
+    protected void dealTiles() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 13; j++) {
+                MahjongTile tile = deck.drawTile();
+                if (i == 0) {
+                    players[0].drawTile(tile);
+                } else {
+                    computers[i - 1].drawTile(tile);
+                }
+            }
+        }
+        ifDealTiles=true;
+        Player_initial_dealTiles=players[0].hand;
+        player=players[0];
+
+    }
+
+    public List<MahjongTile> getPlayer_initial_dealTiles() {
+        return Player_initial_dealTiles;
+    }
+
+    public boolean isIfDealTiles() {
+        return ifDealTiles;
+    }
+
+    public static Player getPlayer() {
+        return player;
+    }
 
     public void startGame() {
         System.out.println("游戏开始！");
         startGameScreen();
-        mahjongGame.playGame();
+        //mahjongGame.playGame();
+        //mahjongGame.dealTiles();
+        dealTiles();
+        //gameScreen.paintTiles(mahjongGame);
+        while (!isGameOver()) {
+            mahjongGame.testDrawAndDiscard();
+            mahjongGame.playComputerTurn();
+        }
         System.out.println("游戏结束！");
     }
 
@@ -36,11 +77,26 @@ public class MahjongGameManager implements Game ,Game2{
         gameScreen.setVisible(true);
     }
 
-
     @Override
     public void playGame() {
-        startGame();
+
     }
+
+
+//    @Override
+//    public void playGame() {
+//        startGame();
+//    }
+
+//    public void playGame() {
+//        mahjongGame.dealTiles();
+//        while (!isGameOver()) {
+//            mahjongGame.testDrawAndDiscard();
+//            mahjongGame.playComputerTurn();
+//        }
+//    }
+
+
 
     // use the engine in thr libs, hence zzq need implement the  ucd.comp2011j.engine.Game;
     // instead of Item.Game;
@@ -95,6 +151,17 @@ public class MahjongGameManager implements Game ,Game2{
 
     }
 
+
+    @Override
+    protected void testDrawAndDiscard() {
+
+    }
+
+    @Override
+    protected void updatePlayerHands() {
+
+    }
+
     @Override
     public boolean isGameOver() {
         return mahjongGame.isGameOver();
@@ -117,6 +184,6 @@ public class MahjongGameManager implements Game ,Game2{
 //
         PlayerListener playerListener = new PlayerListener();
         MahjongGameManager gameManager = new MahjongGameManager(playerListener);
-        gameManager.playGame(); // 调用抽象方法
+        gameManager.startGame(); // 调用抽象方法
     }
 }

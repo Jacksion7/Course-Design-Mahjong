@@ -10,6 +10,8 @@ public class MahjongTile implements Tile {
     private String suit;
     //数值
     private int value;
+    //image address
+    public String ImagePath;
 
     //构造麻将牌
     public MahjongTile(String suit, int value) {
