@@ -1,5 +1,6 @@
 package GameRules;
 
+import Item.Tile;
 import Mahjong.MahjongTile;
 import Players.Computers;
 import Players.Player;
@@ -155,7 +156,7 @@ public class Chow {
             // 输出吃牌信息
             System.out.println("玩家" + (playerIndex + 1) + "吃牌成功：" + rulesTiles);
         } else {
-            System.out.println("当前玩家无法吃牌！");
+            System.out.println("玩家" + (playerIndex + 1) + "无法吃牌！");
         }
     }
 
