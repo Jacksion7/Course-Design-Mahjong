@@ -16,10 +16,10 @@ public class GameScreen extends JFrame {
 
     MahjongGame mahjongGame;
 
-    int mahjongWidth = 60;
-    int mahjongHeight = 90;
+    int mahjongWidth = 40;
+    int mahjongHeight = 60;
     int startX1 = (Constant.SCREEN_WIDTH - (13 * mahjongWidth)) / 2;
-    int startY1 = 1000 - mahjongHeight - 30; // 20像素距离屏幕底部
+    int startY1 = 800 - mahjongHeight - 30; // 20像素距离屏幕底部
     int startX2 = (13 * mahjongWidth) + 40;
     int startY2 = mahjongHeight; // 20像素距离屏幕底部
     int startY3 = mahjongHeight + 80; // 20像素距离屏幕底部
@@ -27,7 +27,7 @@ public class GameScreen extends JFrame {
     public GameScreen() {
 
         setTitle("Image Frame Example");
-        setSize(1000, 1000);
+        setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // 创建一个JPanel用于显示图片
@@ -46,11 +46,11 @@ public class GameScreen extends JFrame {
 
 
                 // 绘制图片
-                g.drawImage(image, 0, 0, this);
-                g.drawImage(player1, 10, 0, 200, 200, this);
-                g.drawImage(player2, 10, 750, 200, 200, this);
-                g.drawImage(player3, 810, 750, 200, 200, this);
-                g.drawImage(player4, 810, 0, 200, 200, this);
+                g.drawImage(image, 0, 0, 800, 800, this);
+                g.drawImage(player1, 10, 10, 100, 100, this);
+                g.drawImage(player2, 10, 660, 100, 100, this);
+                g.drawImage(player3, 660, 660, 100, 100, this);
+                g.drawImage(player4, 660, 10, 100, 100, this);
 
                 Graphics2D g2 = (Graphics2D) g.create();
                 // Graphics g2 =  g;
@@ -74,10 +74,10 @@ public class GameScreen extends JFrame {
 
         // 在屏幕下方从左到右绘制13张相同的空白麻将图片
         for (int i = 0; i < 13; i++) {
-            g2d.drawImage(tile_Face, startX1 + i * (mahjongWidth), startY1, mahjongWidth, mahjongHeight, this);
-            g2d.drawImage(tile_Back, startX1 + 100 + i * 40, startY2, mahjongWidth, mahjongHeight, this);
-            g2d.drawImage(tile_Lay2, startX1, startY3 + i * 40, mahjongWidth, mahjongHeight, this);
-            g2d.drawImage(tile_Lay, startX2, startY3 + i * 40, mahjongWidth, mahjongHeight, this);
+            g2d.drawImage(tile_Face, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
+            g2d.drawImage(tile_Back, startX1 - 120 + i * 40, startY2 + 5, mahjongWidth, mahjongHeight, this);
+            g2d.drawImage(tile_Lay2, startX1 - 150, startY3 - 20 + i * 40, mahjongWidth, mahjongHeight, this);
+            g2d.drawImage(tile_Lay, startX2 + 90, startY3 - 20 + i * 40, mahjongWidth, mahjongHeight, this);
         }
     }
 
@@ -86,7 +86,7 @@ public class GameScreen extends JFrame {
         for (MahjongTile tile : player.hand) {
             matchTilesWithImage(tile);// assign the ImagePath of tiles
             Image temp = new ImageIcon(tile.ImagePath).getImage();
-            g2d.drawImage(temp, startX1 + i * (mahjongWidth), startY1, mahjongWidth, mahjongHeight, this);
+            g2d.drawImage(temp, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
             i++;
         }
     }
