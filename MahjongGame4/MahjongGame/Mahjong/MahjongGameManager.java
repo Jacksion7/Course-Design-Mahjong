@@ -63,9 +63,10 @@ public class MahjongGameManager extends AbstractMahjongGame implements Game ,Gam
         System.out.println("游戏开始！");
         startGameScreen();
         //mahjongGame.playGame();
-        //mahjongGame.dealTiles();
+        // mahjongGame.dealTiles();
         dealTiles();
         //gameScreen.paintTiles(mahjongGame);
+        System.out.println(isGameOver());
         while (!isGameOver()) {
             mahjongGame.testDrawAndDiscard();
             mahjongGame.playComputerTurn();
