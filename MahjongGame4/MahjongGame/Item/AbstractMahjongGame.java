@@ -4,7 +4,7 @@ import GameRules.*;
 import Mahjong.*;
 import Players.*;
 
-public abstract class AbstractMahjongGame implements Game2 {
+public abstract class AbstractMahjongGame implements GameReady {
 
     protected Player[] players;
 
