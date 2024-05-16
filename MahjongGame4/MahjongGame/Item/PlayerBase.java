@@ -11,7 +11,7 @@ import java.util.Random;
 
 public abstract class PlayerBase {
     protected MahjongDeck deck;
-    protected List<MahjongTile> hand;
+    public List<MahjongTile> hand;
     protected Random random;
     protected TouchDeal touchDeal;
     protected Chow chow;
@@ -19,7 +19,7 @@ public abstract class PlayerBase {
     protected Gang gang;
     protected Win win;
 
-    protected Player[] players;
+    public Player[] players;
 
     protected Computers[] computers;
     protected MahjongTile discardedTile;
