@@ -3,18 +3,20 @@ package Players;
 import Item.PlayerBase;
 import Mahjong.MahjongTile;
 
-import java.util.Scanner;
 
 
 public class Player extends PlayerBase {
-    private Scanner scanner;
+    //private Scanner scanner;
 
     public Player(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
-        super(discardedTile, players, computers, playerIndex);
-        this.scanner = new Scanner(System.in);
-        //chow = new Chow(discardedTile, players, computers, playerIndex);
+        super();
+        this.discardedTile = discardedTile;
+        this.players = players;
+        this.computers = computers;
+        this.playerIndex = playerIndex;
     }
 
+    //删除手牌方法
     public void dealPlayerTile(MahjongTile tile) {
         if (hand.contains(tile)) {
             hand.remove(tile);

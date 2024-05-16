@@ -1,45 +1,48 @@
 package Item;
 
-import GameRules.Chow;
-import GameRules.TouchDeal;
-import Mahjong.MahjongDeck;
-import Mahjong.MahjongTile;
-import Mahjong.PlayerManager;
-import Players.Computers;
-import Players.Player;
+import GameRules.*;
+import Mahjong.*;
+import Players.*;
 
 public abstract class AbstractMahjongGame implements Game2 {
+
     protected Player[] players;
+
     protected Computers[] computers;
     protected MahjongDeck deck;
     protected TouchDeal touchDeal;
+    protected Win win;
+    protected Peng peng;
+    protected Gang gang;
     protected Chow chow;
     protected boolean gameOver = false;
-    protected MahjongTile discardTile;
+    protected MahjongTile discardedTile;
     protected int playerIndex;
+
+    //这个方法只是对于玩家的一个回合的操作 ↓
+    protected abstract void playerTurn();
+    protected abstract void updatePlayerHands();
 
     public AbstractMahjongGame() {
         PlayerManager playerManager = new PlayerManager();
         players = playerManager.getPlayers();
         computers = playerManager.getComputers();
         deck = new MahjongDeck();
-        chow = new Chow(discardTile, players, computers, playerIndex);
+        touchDeal = new TouchDeal(discardedTile, players, computers);
+        chow = new Chow(discardedTile, players, computers, playerIndex);
+        peng = new Peng(discardedTile, players, computers);
+        gang = new Gang(discardedTile, players, computers);
+        win = new Win(players, computers);
     }
 
     @Override
     public void playGame() {
-        dealTiles();
+        touchDeal.firstRoundHandTile();
         while (!isGameOver()) {
-            testDrawAndDiscard();
+            playerTurn();
             playComputerTurn();
         }
     }
-
-    protected abstract void dealTiles();
-
-    protected abstract void testDrawAndDiscard();
-
-    protected abstract void updatePlayerHands();
 
     @Override
     public boolean isGameOver() {

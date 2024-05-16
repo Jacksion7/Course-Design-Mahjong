@@ -9,7 +9,6 @@ import static UI.Constant.SCREEN_WIDTH;
 
 public class MahjongGameManager implements Game ,Game2{
     private MahjongGame mahjongGame;
-
     private int playerLives;
     private int playerScore;
 
@@ -105,7 +104,8 @@ public class MahjongGameManager implements Game ,Game2{
 
     public static void main(String[] args) {
         MahjongGame mahjongGame1 = new MahjongGame();
-         mahjongGame1.dealTiles();
+        //mahjongGame1.dealTiles();
+        mahjongGame1.playGame();
 
 //        PlayerListener playerListener = new PlayerListener();
 //        MahjongGameManager gameManager = new MahjongGameManager(playerListener);

@@ -70,5 +70,9 @@ public class Peng {
             }
         }
     }
+
+    public boolean isPeng() {
+        return false;
+    }
 }
 

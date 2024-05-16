@@ -3,20 +3,20 @@ package Mahjong;
 import Players.Computers;
 import Players.Player;
 
+import java.util.Random;
+
 public class PlayerManager {
     private Player[] players;
     private Computers[] computers;
-    private MahjongDeck deck;
-    private MahjongTile discardTile;
+    private MahjongTile discardedTile;
     private int playerIndex;
 
     public PlayerManager() {
-        deck = new MahjongDeck();
-        players = new Player[1];
-        computers = new Computers[3];
-        players[0] = new Player(discardTile, players, computers, playerIndex);
+        players = new Player[1];//创建一位玩家
+        computers = new Computers[3];//创建三位电脑
+        players[0] = new Player(discardedTile, players, computers, playerIndex);
         for (int i = 0; i < 3; i++) {
-            computers[i] = new Computers(discardTile, players, computers, playerIndex);
+            computers[i] = new Computers(discardedTile, players, computers, playerIndex);
         }
     }
 
@@ -27,4 +27,13 @@ public class PlayerManager {
     public Computers[] getComputers() {
         return computers;
     }
+
+    //创建骰子
+    public int dice() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(21) + 4;
+        playerIndex = randomNumber % 4;
+        return playerIndex;
+    }
+
 }
