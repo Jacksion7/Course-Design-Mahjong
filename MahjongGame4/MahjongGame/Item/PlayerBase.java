@@ -19,7 +19,7 @@ public abstract class PlayerBase {
     protected Gang gang;
     protected Win win;
 
-    public Player[] players;
+    protected Player[] players;
 
     protected Computers[] computers;
     protected MahjongTile discardedTile;

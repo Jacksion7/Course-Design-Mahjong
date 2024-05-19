@@ -20,7 +20,6 @@ public abstract class AbstractMahjongGame implements GameReady {
     protected int playerIndex;
 
     //这个方法只是对于玩家的一个回合的操作 ↓
-    protected abstract void playerTurn();
     protected abstract void updatePlayerHands();
 
     public AbstractMahjongGame() {
@@ -39,8 +38,8 @@ public abstract class AbstractMahjongGame implements GameReady {
     public void playGame() {
         touchDeal.firstRoundHandTile();
         while (!isGameOver()) {
-            playerTurn();
-            playComputerTurn();
+            playerTurn(discardedTile);
+            playComputerTurn(discardedTile);
         }
     }
 
@@ -54,11 +53,18 @@ public abstract class AbstractMahjongGame implements GameReady {
         return gameOver = false;
     }
 
-    protected void playComputerTurn() {
+    protected void playerTurn(MahjongTile discardedTile) {
+        System.out.println("你的回合：");
+        updatePlayerHands();//表示手牌
+        players[0].playerPlay(discardedTile);
+        System.out.println();
+    }
+
+    protected void playComputerTurn(MahjongTile discardedTile) {
         for (int i = 0; i < 3; i++) {
             System.out.println("电脑 " + (i + 1) + " 的回合：");
             updatePlayerHands();
-            computers[i].computerPlay(i + 1);
+            computers[i].computerPlay(discardedTile, i + 1);
             System.out.println();
         }
     }

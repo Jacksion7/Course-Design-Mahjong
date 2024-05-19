@@ -56,10 +56,6 @@ public class GameScreen extends JFrame {
                 // Graphics g2 =  g;
                 initialPlayerTiles(g2);
 
-                if(MahjongGameManager.ifDealTiles){
-                    paintTiles(MahjongGameManager.player,g2);
-                }
-
             }
         };
 

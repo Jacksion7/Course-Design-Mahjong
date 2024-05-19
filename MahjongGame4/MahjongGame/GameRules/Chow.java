@@ -1,6 +1,5 @@
 package GameRules;
 
-import Item.Tile;
 import Mahjong.MahjongTile;
 import Players.Computers;
 import Players.Player;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chow {
-    private TouchDeal touchDeal;
     private MahjongTile discardedTile;
     private Player[] players;
     private Player player;
@@ -18,12 +16,14 @@ public class Chow {
     private Computers[] computers;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
+    private TouchDeal touchDeal;
     private int playerIndex;
     public Chow(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         this.discardedTile = discardedTile;
         this.players = players;
         this.computers = computers;
         this.playerIndex = playerIndex;
+        touchDeal = new TouchDeal(discardedTile, players, computers);
     }
 
     /*
@@ -40,7 +40,9 @@ public class Chow {
     //这个方法应该是判断是否能吃牌的
     //是下家在摸牌之前判断能不能吃牌！！
     public boolean canChow(MahjongTile discardedTile, int playerIndex, Player[] players, Computers[] computers) {
+
         System.out.println("出的牌是：" + discardedTile);
+
         if (discardedTile != null) {
             int value = discardedTile.getValue();
             String suit = discardedTile.getSuit();
@@ -162,8 +164,11 @@ public class Chow {
         }
     }
 
-    public boolean isChow(MahjongTile discardedTile) {
+    public boolean isChow(MahjongTile discardedTile, int playerIndex, Player[] players, Computers[] computers) {
+
         System.out.println("进入判断isChow");
+        System.out.println("在isChow方法中discardedTile是: " + discardedTile);
+
         if (canChow(discardedTile, playerIndex, players, computers)) {
             System.out.println("可以吃牌");
             chowTile(discardedTile, playerIndex);

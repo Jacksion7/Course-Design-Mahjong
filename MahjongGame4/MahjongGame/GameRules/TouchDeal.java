@@ -10,10 +10,8 @@ import java.util.Scanner;
 
 public class TouchDeal {
     private Player[] players;
-    //private Player player;
     private Computers[] computers;
     private Scanner scanner;
-    private Chow chow;
     private MahjongDeck deck;
     private int playerIndex;
     private MahjongTile discardedTile;
@@ -27,7 +25,8 @@ public class TouchDeal {
     }
 
     //出牌方法
-    public MahjongTile discardTile() {
+    public void discardTile(int currentPlayerIndex) {
+        playerIndex = currentPlayerIndex;
         if (playerIndex == 0) { //玩家出牌
             System.out.println("请输入您要出的牌（值 牌面）：");
             String input = scanner.nextLine();
@@ -35,7 +34,7 @@ public class TouchDeal {
 
             if (parts.length != 2 || parts[0].isEmpty() || parts[1].isEmpty()) {
                 System.out.println("输入格式不正确，请重新输入！");
-                discardTile();
+                discardTile(currentPlayerIndex);
             }
 
             int value = 0;
@@ -43,7 +42,7 @@ public class TouchDeal {
                 value = Integer.parseInt(parts[0]);
             } catch (NumberFormatException e) {
                 System.out.println("牌值必须为整数，请重新输入！");
-                discardTile();
+                discardTile(currentPlayerIndex);
             }
 
             String suit = parts[1];
@@ -51,21 +50,22 @@ public class TouchDeal {
 
             if (!isTileInHand(discardTile, players[0])) {
                 System.out.println("您手上的牌中没有该牌，请重新输入！");
-                discardTile();
+                discardTile(currentPlayerIndex);
             }
 
             players[0].dealPlayerTile(discardTile);
             System.out.println("Player 出了一张牌：" + discardTile);
-            System.out.println();
-
             discardedTile = discardTile;
+
         } else { //电脑出牌
-
+            MahjongTile tileToPlay = computers[playerIndex - 1].chooseTileToPlay();
+            System.out.println("电脑 " + playerIndex + " 出了一张牌：" + tileToPlay);
+            discardedTile = tileToPlay;
+            computers[playerIndex - 1].getHand().remove(tileToPlay);
         }
-
+        System.out.println();
         System.out.println(discardedTile + "111111111111");
 
-        return discardedTile;
     }
 
     private boolean isTileInHand(MahjongTile tile, Player player) {

@@ -1,5 +1,6 @@
 package Mahjong;
 
+import GameRules.TouchDeal;
 import Players.Computers;
 import Players.Player;
 
@@ -14,6 +15,11 @@ public class PlayerManager {
     public PlayerManager() {
         players = new Player[1];//创建一位玩家
         computers = new Computers[3];//创建三位电脑
+        setPlayer();
+        //playerIndex = dice();
+    }
+
+    public void setPlayer() {
         players[0] = new Player(discardedTile, players, computers, playerIndex);
         for (int i = 0; i < 3; i++) {
             computers[i] = new Computers(discardedTile, players, computers, playerIndex);
@@ -32,8 +38,7 @@ public class PlayerManager {
     public int dice() {
         Random random = new Random();
         int randomNumber = random.nextInt(21) + 4;
-        playerIndex = randomNumber % 4;
-        return playerIndex;
+        return randomNumber % 4;
     }
 
 }
