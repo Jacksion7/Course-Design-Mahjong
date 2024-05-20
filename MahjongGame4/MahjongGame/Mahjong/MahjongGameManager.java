@@ -1,25 +1,38 @@
 package Mahjong;
 
 import Item.AbstractMahjongGame;
+import Mahjong.MahjongGame;
 
 import Players.Player;
 import UI.GameScreen;
 import UI.PlayerListener;
 import ucd.comp2011j.engine.Game;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static UI.Constant.SCREEN_HEIGHT;
-import static UI.Constant.SCREEN_WIDTH;
+
 
 public class MahjongGameManager extends AbstractMahjongGame   {
     private MahjongGame mahjongGame;
+
+    private MahjongDeck deck;
+
+    public List<MahjongTile> hand;
     private int playerLives;
     private int playerScore;
     public static List<MahjongTile> Player_initial_dealTiles;// connect with Game Screen
 
+    public static List<MahjongTile> computer1_hand;
+    public static List<MahjongTile> computer2_hand;
+    public static List<MahjongTile> computer3_hand;
+
+
+
     public static Player player;
     private GameScreen gameScreen;
+
     public static boolean ifDealTiles= false;// connect with Game Screen
 
     private PlayerListener listener;
@@ -28,6 +41,7 @@ public class MahjongGameManager extends AbstractMahjongGame   {
         this.listener = listener;
         mahjongGame = new MahjongGame();
         gameScreen = new GameScreen();
+        this.deck= new MahjongDeck();
     }
 
     protected void dealTiles() {
@@ -42,7 +56,16 @@ public class MahjongGameManager extends AbstractMahjongGame   {
             }
         }
         ifDealTiles=true;
-        Player_initial_dealTiles=players[0].hand;
+
+        Player_initial_dealTiles=sortTiles_pre(players[0].hand);
+        computer1_hand=computers[0].hand;
+        computer2_hand=computers[1].hand;
+        computer3_hand=computers[2].hand;
+        displayHand_pre(Player_initial_dealTiles);
+        displayHand_pre(computer1_hand);
+        displayHand_pre(computer2_hand);
+        displayHand_pre(computer3_hand);
+        players[0].hand=Player_initial_dealTiles;
         player=players[0];
     }
 
@@ -60,18 +83,42 @@ public class MahjongGameManager extends AbstractMahjongGame   {
 
     public void startGame() {
         System.out.println("游戏开始！");
+
         startGameScreen();
-        //mahjongGame.playGame();
-        // mahjongGame.dealTiles();
         dealTiles();
-        //gameScreen.paintTiles(mahjongGame);
+
+        //displayHand();
         System.out.println(isGameOver());
         while (!isGameOver()) {
-//            mahjongGame.testDrawAndDiscard();
+            playerTurn();
+            playComputerTurn();
 //            mahjongGame.playComputerTurn();
         }
         System.out.println("游戏结束！");
     }
+
+    public List<MahjongTile> sortTiles_pre(List<MahjongTile> hand){
+        List<MahjongTile> new_hand = new ArrayList<>();
+        String[] sequence = {"万","条","筒","东", "南", "西", "北", "中", "发", "白"};
+        for (int j = 0; j < 10; j++) {
+            for (MahjongTile tile : hand) {
+                if (tile.getSuit().equals(sequence[j])){
+                    new_hand.add(tile);
+                }
+            }
+        }
+        return new_hand;
+    }
+
+    public void displayHand_pre(List<MahjongTile> hand) {
+        System.out.println("the tiles in hand");
+        //sortHand();
+        for (MahjongTile tile : hand) {
+            System.out.print(tile.toString() + " ");
+        }
+        System.out.println();
+    }
+
 
     public void startGameScreen(){
         gameScreen.setVisible(true);
@@ -96,6 +143,40 @@ public class MahjongGameManager extends AbstractMahjongGame   {
 //        }
 //    }
 
+    public void displayHand() {
+        //sortHand();
+        for (MahjongTile tile : hand) {
+            System.out.print(tile.toString() + " ");
+        }
+        System.out.println();
+    }
+
+    public void sortHand() {
+        Collections.sort(hand, (t1, t2) -> {
+            int suitOrder1 = getSuitOrder(t1.getSuit());
+            int suitOrder2 = getSuitOrder(t2.getSuit());
+            if (suitOrder1 != suitOrder2) {
+                return suitOrder1 - suitOrder2;
+            }
+            return t1.getValue() - t2.getValue();
+        });
+    }
+
+    private int getSuitOrder(String suit) {
+        return switch (suit) {
+            case "万" -> 0;
+            case "条" -> 1;
+            case "筒" -> 2;
+            case "东" -> 3;
+            case "西" -> 4;
+            case "南" -> 5;
+            case "北" -> 6;
+            case "中" -> 7;
+            case "发" -> 8;
+            default -> 9;
+        };
+    }
+
 
 
 
@@ -107,7 +188,38 @@ public class MahjongGameManager extends AbstractMahjongGame   {
 
     @Override
     protected void playerTurn() {
-
+        System.out.println("你的回合：");
+        updatePlayerHands();//表示手牌
+//        if (win.isWin()) {
+//            if (gang.isGang()) {
+//                if (peng.isPeng()) {
+//                    if (chow.isChow()) {
+//                        System.out.println("你已吃牌，进行出牌");
+//                        touchDeal.discardTile();//进行出牌操作
+//                        //chow.isChow() = false;
+//                    }
+//                    System.out.println("你已碰牌，进行出牌");
+//                    touchDeal.discardTile();//进行出牌操作
+//                    //peng.isPeng() = false;
+//                }
+//                System.out.println("你已杠牌，进行出牌");
+//                touchDeal.discardTile();//进行出牌操作
+//                //gang.isGang() = false;
+//            }
+//            System.out.println("你已胡牌");
+//        }
+        System.out.println("玩家能不能吃牌");
+        if (chow.isChow(discardedTile)) {
+            System.out.println("你已吃牌，进行出牌");
+            touchDeal.discardTile();//进行出牌操作
+            //chow.isChow() = false;
+        }
+        System.out.println("你没有进行任何操作，进行出牌");
+        MahjongTile tile = deck.drawTile();//摸牌
+        System.out.println("摸到的牌: " + tile);
+        players[0].drawTile(tile);//将牌放入手牌
+        touchDeal.discardTile();//进行出牌操作
+        discardedTile = touchDeal.getDiscardedTile();//获取出牌的牌
     }
 
     @Override
@@ -123,11 +235,13 @@ public class MahjongGameManager extends AbstractMahjongGame   {
 
 
     public static void main(String[] args) {
-//        MahjongGame mahjongGame1 = new MahjongGame();
-//         mahjongGame1.dealTiles();
-//
         PlayerListener playerListener = new PlayerListener();
         MahjongGameManager gameManager = new MahjongGameManager(playerListener);
         gameManager.startGame(); // 调用抽象方法
+
+//        PlayerListener playerListener = new PlayerListener();
+//        MahjongGameManager gameManager = new MahjongGameManager(playerListener);
+//        gameManager.dealTiles();
+//        gameManager.displayHand();
     }
 }
