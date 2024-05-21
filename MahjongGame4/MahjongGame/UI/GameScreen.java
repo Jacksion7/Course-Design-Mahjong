@@ -33,6 +33,7 @@ public class GameScreen extends JFrame {
 
         // 创建一个JPanel用于显示图片
         JPanel panel = new JPanel() {
+
             @Override
             protected void paintComponent(Graphics g) {
                 //super.paintComponent(g);
@@ -45,6 +46,9 @@ public class GameScreen extends JFrame {
                 Image player3 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/player3.png").getImage();
                 Image player4 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/player4.png").getImage();
 
+//                Image touch = new ImageIcon("MahjongGame4/imgSet/PlayScreen/bottom/touch.png").getImage();
+//                Image draw = new ImageIcon("MahjongGame4/imgSet/PlayScreen/bottom/draw.png").getImage();
+//                Image select = new ImageIcon("MahjongGame4/imgSet/PlayScreen/bottom/select.png").getImage();
 
                 // 绘制图片
                 g.drawImage(image, 0, 0, 800, 800, this);
@@ -53,6 +57,13 @@ public class GameScreen extends JFrame {
                 g.drawImage(player3, 660, 660, 100, 100, this);
                 g.drawImage(player4, 660, 10, 100, 100, this);
 
+                ImageIcon scaledIcon = new ImageIcon(image);
+                //button.setIcon(scaledIcon);
+
+//                g.drawImage(touch, 500, 550, 60,100, this);
+//                g.drawImage(draw, 200, 550, 60,100,this);
+//                g.drawImage(select, 350, 550, 60,100, this);
+
                 Graphics2D g2 = (Graphics2D) g.create();
                 // Graphics g2 =  g;
                 initialPlayerTiles(g2);
@@ -60,12 +71,42 @@ public class GameScreen extends JFrame {
                 if(MahjongGameManager.ifDealTiles){
                     paintTiles(MahjongGameManager.player,g2);
                 }
-
             }
-        };
 
+        };
+        panel.setLayout(new BorderLayout());
+        JButton button = new JButton();
+        JButton button2 = new JButton("Draw ");
+        JButton button3 = new JButton("Select ");
+        button.setOpaque(false);
+
+        Image touch = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/touch.png").
+                getImage().getScaledInstance(90,130,Image.SCALE_SMOOTH);
+        Image draw = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/draw.png").
+                getImage().getScaledInstance(90,130,Image.SCALE_SMOOTH);
+        Image select = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/select.png").
+                getImage().getScaledInstance(80,120,Image.SCALE_SMOOTH);;
+
+        ImageIcon touchCon = new ImageIcon(touch);// give the image on the button
+        button.setIcon(touchCon);
+        ImageIcon drawCon = new ImageIcon(draw);
+        button2.setIcon(drawCon);
+        ImageIcon selectCon = new ImageIcon(select);
+        button3.setIcon(selectCon);
+
+        button.setBounds(200, 550, 70,100); // x, y, width, height
+        button2.setBounds(350, 550, 70,100);
+        button3.setBounds(500, 550, 70,100);
+        panel.setLayout(null);
+
+        panel.add(button);
+        panel.add(button2);
+        panel.add(button3);
         add(panel);
     }
+
+
+
 
     protected void initialPlayerTiles(Graphics2D g2d) {
         Image tile_Face = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_Face.png").getImage();
@@ -188,7 +229,7 @@ public class GameScreen extends JFrame {
             tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/fa.png";
         }
         if (tile.getSuit()=="白"){
-            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/ba.png";
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/white.png";
         }
         if (tile.getSuit()=="东"){
             tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/east.png";

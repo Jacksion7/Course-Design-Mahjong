@@ -1,7 +1,7 @@
 package Mahjong;
 
 import Item.AbstractMahjongGame;
-import Item.Game2;
+
 import Players.Player;
 import UI.GameScreen;
 import UI.PlayerListener;
@@ -12,7 +12,7 @@ import java.util.List;
 import static UI.Constant.SCREEN_HEIGHT;
 import static UI.Constant.SCREEN_WIDTH;
 
-public class MahjongGameManager extends AbstractMahjongGame implements Game ,Game2   {
+public class MahjongGameManager extends AbstractMahjongGame   {
     private MahjongGame mahjongGame;
     private int playerLives;
     private int playerScore;
@@ -45,7 +45,6 @@ public class MahjongGameManager extends AbstractMahjongGame implements Game ,Gam
         ifDealTiles=true;
         Player_initial_dealTiles=players[0].hand;
         player=players[0];
-
     }
 
     public List<MahjongTile> getPlayer_initial_dealTiles() {
@@ -69,8 +68,8 @@ public class MahjongGameManager extends AbstractMahjongGame implements Game ,Gam
         //gameScreen.paintTiles(mahjongGame);
         System.out.println(isGameOver());
         while (!isGameOver()) {
-            mahjongGame.testDrawAndDiscard();
-            mahjongGame.playComputerTurn();
+//            mahjongGame.testDrawAndDiscard();
+//            mahjongGame.playComputerTurn();
         }
         System.out.println("游戏结束！");
     }
@@ -100,62 +99,15 @@ public class MahjongGameManager extends AbstractMahjongGame implements Game ,Gam
 
 
 
-    // use the engine in thr libs, hence zzq need implement the  ucd.comp2011j.engine.Game;
-    // instead of Item.Game;
-    // it may cause some problem, we need a discussion
-    @Override
-    public int getPlayerScore() {
-        return playerScore;
-    }
-
-    @Override
-    public int getLives() {
-        return playerLives;
-    }
-
-    @Override
-    public void updateGame() {
-
-    }
-
-    @Override
-    public boolean isPaused() {
-        return false;
-    }
-
-    @Override
-    public void checkForPause() {
-
-    }
-
-    @Override
-    public void startNewGame() {
-
-    }
-
-    @Override
-    public boolean isLevelFinished() {
-        return false;
-    }
-
-    @Override
-    public boolean isPlayerAlive() {
-        return false;
-    }
-
-    @Override
-    public void resetDestroyedPlayer() {
-
-    }
-
-    @Override
-    public void moveToNextLevel() {
-
-    }
 
 
-    @Override
+
     protected void testDrawAndDiscard() {
+
+    }
+
+    @Override
+    protected void playerTurn() {
 
     }
 
@@ -169,15 +121,6 @@ public class MahjongGameManager extends AbstractMahjongGame implements Game ,Gam
         return mahjongGame.isGameOver();
     }
 
-    @Override
-    public int getScreenWidth() {
-        return SCREEN_WIDTH;
-    }
-
-    @Override
-    public int getScreenHeight() {
-        return SCREEN_HEIGHT;
-    }
 
 
     public static void main(String[] args) {

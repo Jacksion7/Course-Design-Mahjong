@@ -1,46 +1,48 @@
 package Item;
 
-import GameRules.Chow;
-import GameRules.TouchDeal;
-import Mahjong.MahjongDeck;
-import Mahjong.MahjongTile;
-import Mahjong.PlayerManager;
-import Players.Computers;
-import Players.Player;
+import GameRules.*;
+import Mahjong.*;
+import Players.*;
 
-public abstract class AbstractMahjongGame implements Game2 {
-    public Player[] players;
+public abstract class AbstractMahjongGame implements GameReady {
+
+    protected Player[] players;
+
     protected Computers[] computers;
     protected MahjongDeck deck;
     protected TouchDeal touchDeal;
+    protected Win win;
+    protected Peng peng;
+    protected Gang gang;
     protected Chow chow;
     protected boolean gameOver = false;
-    protected MahjongTile discardTile;
+    protected MahjongTile discardedTile;
     protected int playerIndex;
+
+    //这个方法只是对于玩家的一个回合的操作 ↓
+    protected abstract void playerTurn();
+    protected abstract void updatePlayerHands();
 
     public AbstractMahjongGame() {
         PlayerManager playerManager = new PlayerManager();
         players = playerManager.getPlayers();
         computers = playerManager.getComputers();
         deck = new MahjongDeck();
-        chow = new Chow(discardTile, players, computers, playerIndex);
+        touchDeal = new TouchDeal(discardedTile, players, computers);
+        chow = new Chow(discardedTile, players, computers, playerIndex);
+        peng = new Peng(discardedTile, players, computers);
+        gang = new Gang(discardedTile, players, computers);
+        win = new Win(players, computers);
     }
 
-//    @Override
-//    public void playGame() {
-//        dealTiles();
-//
-//        while (!isGameOver()) {
-//            testDrawAndDiscard();
-//            playComputerTurn();
-//        }
-//    }
-
-    //protected abstract void dealTiles();
-
-    protected abstract void testDrawAndDiscard();
-
-    protected abstract void updatePlayerHands();
+    @Override
+    public void playGame() {
+        touchDeal.firstRoundHandTile();
+        while (!isGameOver()) {
+            playerTurn();
+            playComputerTurn();
+        }
+    }
 
     @Override
     public boolean isGameOver() {
@@ -52,7 +54,7 @@ public abstract class AbstractMahjongGame implements Game2 {
         return gameOver = false;
     }
 
-    public void playComputerTurn() {
+    protected void playComputerTurn() {
         for (int i = 0; i < 3; i++) {
             System.out.println("电脑 " + (i + 1) + " 的回合：");
             updatePlayerHands();

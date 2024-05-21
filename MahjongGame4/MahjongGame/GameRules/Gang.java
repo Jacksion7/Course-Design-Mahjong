@@ -88,4 +88,8 @@ public class Gang {
             }
         }
     }
+
+    public boolean isGang() {
+        return false;
+    }
 }

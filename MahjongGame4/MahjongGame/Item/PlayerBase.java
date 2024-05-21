@@ -1,10 +1,8 @@
 package Item;
 
-import GameRules.Chow;
-import Mahjong.MahjongDeck;
-import Mahjong.MahjongTile;
-import Players.Computers;
-import Players.Player;
+import GameRules.*;
+import Mahjong.*;
+import Players.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,19 +13,27 @@ public abstract class PlayerBase {
     protected MahjongDeck deck;
     public List<MahjongTile> hand;
     protected Random random;
+    protected TouchDeal touchDeal;
     protected Chow chow;
+    protected Peng peng;
+    protected Gang gang;
+    protected Win win;
 
     public Player[] players;
 
     protected Computers[] computers;
+    protected MahjongTile discardedTile;
+    protected int playerIndex;
 
-    public PlayerBase(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
+    public PlayerBase() {
         hand = new ArrayList<>();
         random = new Random();
         deck = new MahjongDeck();
+        touchDeal = new TouchDeal(discardedTile, players, computers);
         chow = new Chow(discardedTile, players, computers, playerIndex);
-        this.players = players;
-        this.computers = computers;
+        peng = new Peng(discardedTile, players, computers);
+        gang = new Gang(discardedTile, players, computers);
+        win = new Win(players, computers);
     }
 
     public List<MahjongTile> getHand() {
