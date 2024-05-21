@@ -28,6 +28,7 @@ public class GameScreen extends JFrame {
 
         setTitle("Image Frame Example");
         setSize(800, 800);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // 创建一个JPanel用于显示图片
