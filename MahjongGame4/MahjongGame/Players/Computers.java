@@ -42,18 +42,33 @@ public class Computers extends PlayerBase {
         computerPlayTile(playerIndex);
     }
 
-    private void computerTouchTile(int playerIndex) {
+    public void computerTouchTile(int playerIndex) {
         MahjongTile tileDrawn = deck.drawTile();
         System.out.println("Player " + playerIndex + "摸到了一张牌：" + tileDrawn);
         drawTile(tileDrawn);
     }
 
-    private void computerPlayTile(int playerIndex) {
+    public MahjongTile computerPlayTile(int playerIndex) {
         MahjongTile tileToPlay = getHand().get(random.nextInt(getHand().size()));
         discardedTile = tileToPlay;
         System.out.println("出的牌：" + discardedTile);
         hand.remove(tileToPlay);
         System.out.println("电脑 " + playerIndex + " 出了一张牌：" + tileToPlay);
+        return discardedTile;
+    }
+
+    public void dealComputerTile(MahjongTile tile) {
+        if (hand.contains(tile)) {
+            hand.remove(tile);
+            System.out.println("从手牌中移除: " + tile);
+        } else {
+            System.out.println("电脑手牌中没有这张牌: " + tile);
+        }
+        System.out.println();
+    }
+
+    public MahjongTile getDiscardedTile() {
+        return discardedTile;
     }
 
 }

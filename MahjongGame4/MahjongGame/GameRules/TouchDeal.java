@@ -62,9 +62,7 @@ public class TouchDeal {
         } else { //电脑出牌
 
         }
-
-        System.out.println(discardedTile + "111111111111");
-
+        System.out.println(discardedTile);
         return discardedTile;
     }
 

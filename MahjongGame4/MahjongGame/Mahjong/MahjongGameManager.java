@@ -44,6 +44,15 @@ public class MahjongGameManager extends AbstractMahjongGame   {
         this.deck= new MahjongDeck();
     }
 
+
+// 测试用的
+//    public MahjongGameManager() {
+//        mahjongGame = new MahjongGame();
+//        gameScreen = new GameScreen();
+//        this.deck= new MahjongDeck();
+//    }
+
+    // 画出初始手牌
     protected void dealTiles() {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 13; j++) {
@@ -102,6 +111,22 @@ public class MahjongGameManager extends AbstractMahjongGame   {
         System.out.println("游戏结束！");
     }
 
+    // 测试用的
+//    public void startGame2() {
+//        System.out.println("游戏开始！");
+//
+//        dealTiles();
+//
+//        //displayHand();
+//        System.out.println(isGameOver());
+//        while (!isGameOver()) {
+//            playerTurn();
+//            playComputerTurn();
+////            mahjongGame.playComputerTurn();
+//        }
+//        System.out.println("游戏结束！");
+//    }
+
     public List<MahjongTile> sortTiles_pre(List<MahjongTile> hand){
         List<MahjongTile> new_hand_1 = new ArrayList<>();
         Integer[] sequence_1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
@@ -130,19 +155,19 @@ public class MahjongGameManager extends AbstractMahjongGame   {
         return new_hand_2;
     }
 
-    public List<MahjongTile> sortTiles_pre2(List<MahjongTile> hand){
-        // 副本
-        List<MahjongTile> new_hand = new ArrayList<>();
-        String[] sequence = {"万","条","筒","东", "南", "西", "北", "中", "发", "白"};
-        for (int j = 0; j < 10; j++) {
-            for (MahjongTile tile : hand) {
-                if (tile.getSuit().equals(sequence[j])){
-                    new_hand.add(tile);
-                }
-            }
-        }
-        return new_hand;
-    }
+//    public List<MahjongTile> sortTiles_pre2(List<MahjongTile> hand){
+//        // 副本
+//        List<MahjongTile> new_hand = new ArrayList<>();
+//        String[] sequence = {"万","条","筒","东", "南", "西", "北", "中", "发", "白"};
+//        for (int j = 0; j < 10; j++) {
+//            for (MahjongTile tile : hand) {
+//                if (tile.getSuit().equals(sequence[j])){
+//                    new_hand.add(tile);
+//                }
+//            }
+//        }
+//        return new_hand;
+//    }
 
     public void displayHand_pre(List<MahjongTile> hand) {
         System.out.println("player: ");
@@ -232,7 +257,7 @@ public class MahjongGameManager extends AbstractMahjongGame   {
     @Override
     protected void playerTurn() {
         System.out.println("你的回合：");
-        updatePlayerHands();//表示手牌
+//        updatePlayerHands();//表示手牌
 //        if (win.isWin()) {
 //            if (gang.isGang()) {
 //                if (peng.isPeng()) {
@@ -256,13 +281,73 @@ public class MahjongGameManager extends AbstractMahjongGame   {
             System.out.println("你已吃牌，进行出牌");
             touchDeal.discardTile();//进行出牌操作
             //chow.isChow() = false;
+        } else {
+            System.out.println("你没有进行任何操作，进行抽牌");
+            MahjongTile tile = deck.drawTile();//摸牌
+            System.out.println("摸到的牌: " + tile);
+            players[0].drawTile(tile);//将牌放入手牌
+            touchDeal.discardTile();//进行出牌操作
         }
-        System.out.println("你没有进行任何操作，进行出牌");
-        MahjongTile tile = deck.drawTile();//摸牌
-        System.out.println("摸到的牌: " + tile);
-        players[0].drawTile(tile);//将牌放入手牌
-        touchDeal.discardTile();//进行出牌操作
-        discardedTile = touchDeal.getDiscardedTile();//获取出牌的牌
+
+        discardedTile = touchDeal.getDiscardedTile();
+        System.out.println(discardedTile);
+
+        Player_initial_dealTiles=sortTiles_pre(players[0].hand);
+        displayHand_pre(Player_initial_dealTiles);
+        players[0].hand=Player_initial_dealTiles;
+        player=players[0];
+
+        computer1_hand=sortTiles_pre(computers[0].hand);
+        computer2_hand=sortTiles_pre(computers[1].hand);
+        computer3_hand=sortTiles_pre(computers[2].hand);
+
+        displayHand_pre_computer(computer1_hand);
+        displayHand_pre_computer(computer2_hand);
+        displayHand_pre_computer(computer3_hand);
+
+        computers[0].hand=computer1_hand;
+        computers[1].hand=computer2_hand;
+        computers[2].hand=computer3_hand;
+        System.out.println();
+
+    }
+
+    @Override
+    protected void playComputerTurn() {
+        for (int i = 0; i < 3; i++) {
+            System.out.println("电脑 " + (i) + " 的回合：");
+//            updatePlayerHands();
+            System.out.println("电脑能不能吃牌？");
+            if (chow.isChow(discardedTile)) {
+                System.out.println("已吃牌，进行出牌");
+                computers[i].computerPlayTile(i);
+            } else {
+                System.out.println("你没有进行任何操作，进行抽牌");
+                computers[i].computerTouchTile(i);
+                computers[i].computerPlayTile(i);
+            }
+
+            discardedTile = computers[i].getDiscardedTile();
+            System.out.println(discardedTile);
+//            computers[i].computerPlay(i + 1);
+//            System.out.println();
+
+            Player_initial_dealTiles=sortTiles_pre(players[0].hand);
+            displayHand_pre(Player_initial_dealTiles);
+
+            computer1_hand=sortTiles_pre(computers[0].hand);
+            computer2_hand=sortTiles_pre(computers[1].hand);
+            computer3_hand=sortTiles_pre(computers[2].hand);
+
+            displayHand_pre_computer(computer1_hand);
+            displayHand_pre_computer(computer2_hand);
+            displayHand_pre_computer(computer3_hand);
+
+            computers[0].hand=computer1_hand;
+            computers[1].hand=computer2_hand;
+            computers[2].hand=computer3_hand;
+            System.out.println();
+        }
     }
 
     @Override

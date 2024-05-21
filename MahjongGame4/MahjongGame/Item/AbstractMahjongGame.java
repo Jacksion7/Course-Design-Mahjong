@@ -37,11 +37,11 @@ public abstract class AbstractMahjongGame implements GameReady {
 
     @Override
     public void playGame() {
-        touchDeal.firstRoundHandTile();
-        while (!isGameOver()) {
-           playerTurn();
-            playComputerTurn();
-        }
+//        touchDeal.firstRoundHandTile();
+//        while (!isGameOver()) {
+//           playerTurn();
+//            playComputerTurn();
+//        }
     }
 
     @Override

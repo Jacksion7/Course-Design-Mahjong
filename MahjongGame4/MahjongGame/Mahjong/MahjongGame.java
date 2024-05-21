@@ -10,8 +10,8 @@ public class MahjongGame extends AbstractMahjongGame {
     //这个方法只是对于玩家的一个回合的操作 ↓
     @Override
     protected void playerTurn() {
-        System.out.println("你的回合：");
-        updatePlayerHands();//表示手牌
+//        System.out.println("你的回合");
+//        updatePlayerHands();//表示手牌
 //        if (win.isWin()) {
 //            if (gang.isGang()) {
 //                if (peng.isPeng()) {
@@ -30,18 +30,20 @@ public class MahjongGame extends AbstractMahjongGame {
 //            }
 //            System.out.println("你已胡牌");
 //        }
-        System.out.println("玩家能不能吃牌");
-        if (chow.isChow(discardedTile)) {
-            System.out.println("你已吃牌，进行出牌");
-            touchDeal.discardTile();//进行出牌操作
-            //chow.isChow() = false;
-        }
-        System.out.println("你没有进行任何操作，进行出牌");
-        MahjongTile tile = deck.drawTile();//摸牌
-        System.out.println("摸到的牌: " + tile);
-        players[0].drawTile(tile);//将牌放入手牌
-        touchDeal.discardTile();//进行出牌操作
-        discardedTile = touchDeal.getDiscardedTile();//获取出牌的牌
+
+
+//        System.out.println("玩家能不能吃牌");
+//        if (chow.isChow(discardedTile)) {
+//            System.out.println("你已吃牌，进行出牌");
+//            touchDeal.discardTile();//进行出牌操作
+//            //chow.isChow() = false;
+//        }
+//        System.out.println("你没有进行任何操作，进行出牌");
+//        MahjongTile tile = deck.drawTile();//摸牌
+//        System.out.println("摸到的牌: " + tile);
+//        players[0].drawTile(tile);//将牌放入手牌
+//        touchDeal.discardTile();//进行出牌操作
+//        discardedTile = touchDeal.getDiscardedTile();//获取出牌的牌
     }
 
     @Override
