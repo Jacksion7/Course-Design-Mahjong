@@ -4,10 +4,12 @@ import Item.AbstractMahjongGame;
 import Mahjong.MahjongGame;
 
 import Players.Player;
+import UI.CardHoverEffect;
 import UI.GameScreen;
 import UI.PlayerListener;
 import ucd.comp2011j.engine.Game;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +29,7 @@ public class MahjongGameManager extends AbstractMahjongGame   {
     public static List<MahjongTile> computer1_hand;
     public static List<MahjongTile> computer2_hand;
     public static List<MahjongTile> computer3_hand;
+
 
 
 
@@ -99,6 +102,7 @@ public class MahjongGameManager extends AbstractMahjongGame   {
         System.out.println("游戏开始！");
 
         startGameScreen();
+        //SwingUtilities.invokeLater(GameScreen::new);
         dealTiles();
 
         //displayHand();

@@ -8,6 +8,8 @@ import Players.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import Players.Player;
 import Mahjong.MahjongTile;
@@ -23,6 +25,9 @@ public class GameScreen extends JFrame {
     int startX2 = (13 * mahjongWidth) + 40;
     int startY2 = mahjongHeight; // 20像素距离屏幕底部
     int startY3 = mahjongHeight + 80; // 20像素距离屏幕底部
+
+    private JLabel selectedCard = null;
+    private static final int HOVER_DISTANCE = 20;
 
     public GameScreen() {
 
@@ -46,9 +51,6 @@ public class GameScreen extends JFrame {
                 Image player3 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/player3.png").getImage();
                 Image player4 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/player4.png").getImage();
 
-//                Image touch = new ImageIcon("MahjongGame4/imgSet/PlayScreen/bottom/touch.png").getImage();
-//                Image draw = new ImageIcon("MahjongGame4/imgSet/PlayScreen/bottom/draw.png").getImage();
-//                Image select = new ImageIcon("MahjongGame4/imgSet/PlayScreen/bottom/select.png").getImage();
 
                 // 绘制图片
                 g.drawImage(image, 0, 0, 800, 800, this);
@@ -57,20 +59,26 @@ public class GameScreen extends JFrame {
                 g.drawImage(player3, 660, 660, 100, 100, this);
                 g.drawImage(player4, 660, 10, 100, 100, this);
 
-                ImageIcon scaledIcon = new ImageIcon(image);
-                //button.setIcon(scaledIcon);
-
-//                g.drawImage(touch, 500, 550, 60,100, this);
-//                g.drawImage(draw, 200, 550, 60,100,this);
-//                g.drawImage(select, 350, 550, 60,100, this);
 
                 Graphics2D g2 = (Graphics2D) g.create();
-                // Graphics g2 =  g;
+
                 initialPlayerTiles(g2);
 
-                if(MahjongGameManager.ifDealTiles){
-                    paintTiles(MahjongGameManager.player,g2);
+//                if(MahjongGameManager.ifDealTiles){
+//                    paintTiles(MahjongGameManager.player,g2);
+//                }
+
+
+                //SwingUtilities.invokeLater(GameScreen::new);
+                int i = 0;
+                for (MahjongTile tile : MahjongGameManager.player.hand) {
+                    matchTilesWithImage(tile);
+                    JLabel t =paintTiles2(tile,i);
+                    add(t);
+                    i++;
                 }
+
+
             }
 
         };
@@ -132,6 +140,46 @@ public class GameScreen extends JFrame {
             i++;
         }
     }
+
+    public JLabel paintTiles2(MahjongTile tile, int index) {
+        // assign the ImagePath of tiles
+        ImageIcon originalIcon = new ImageIcon(tile.ImagePath);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(mahjongWidth, mahjongHeight, Image.SCALE_FAST);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+
+        //Image temp = new ImageIcon(tile.ImagePath).getImage();
+        JLabel card = new JLabel(scaledIcon);
+        card.setOpaque(true);
+        card.setHorizontalAlignment(SwingConstants.CENTER);
+        card.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        card.setBounds(startX1 - 120 + index * 40, startY1 -40 , mahjongWidth, mahjongHeight);
+        //g2d.drawImage(temp, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
+
+        card.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                selectedCard = card;
+                moveCard(card,card.getX(), card.getY() - HOVER_DISTANCE);
+                //card.setBounds(card.getX(), card.getY() - HOVER_DISTANCE, mahjongWidth, mahjongHeight);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                moveCard(card,card.getX(), card.getY() + HOVER_DISTANCE);
+                //card.setBounds(card.getX(), card.getY() + HOVER_DISTANCE, mahjongWidth, mahjongHeight);
+                card.setVisible(false);
+                selectedCard = null;
+            }
+        });
+        return card;
+    }
+
+    private void moveCard(JLabel card, int x, int y) {
+        card.setLocation(x, y);
+    }
+
+
 
     // set ImagePath of each tiles
     public static void matchTilesWithImage(MahjongTile tile) {
@@ -195,31 +243,31 @@ public class GameScreen extends JFrame {
         }
         if (tile.getSuit() == "筒") {
             if (tile.getValue() == 1) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao1.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong1.png";
             }
             if (tile.getValue() == 2) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao2.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong2.png";
             }
             if (tile.getValue() == 3) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao3.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong3.png";
             }
             if (tile.getValue() == 4) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao4.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong4.png";
             }
             if (tile.getValue() == 5) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao5.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong5.png";
             }
             if (tile.getValue() == 6) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao6.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong6.png";
             }
             if (tile.getValue() == 7) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao7.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong7.png";
             }
             if (tile.getValue() == 8) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao8.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong8.png";
             }
             if (tile.getValue() == 9) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao9.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong9.png";
             }
         }
         if (tile.getSuit()=="中"){
