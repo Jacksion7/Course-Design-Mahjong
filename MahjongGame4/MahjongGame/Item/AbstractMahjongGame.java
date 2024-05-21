@@ -39,7 +39,7 @@ public abstract class AbstractMahjongGame implements GameReady {
     public void playGame() {
         touchDeal.firstRoundHandTile();
         while (!isGameOver()) {
-            playerTurn();
+           playerTurn();
             playComputerTurn();
         }
     }
@@ -48,7 +48,7 @@ public abstract class AbstractMahjongGame implements GameReady {
     public boolean isGameOver() {
         for (int i = 1; i < 4; i++) {
             if (players[0].getHand().isEmpty()) {
-                return gameOver = false;
+                return gameOver = false;// ??? 应该是true
             }
         }
         return gameOver = false;
