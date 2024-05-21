@@ -41,6 +41,7 @@ public class MahjongGameManager extends AbstractMahjongGame implements Game ,Gam
                 }
             }
         }
+        
         ifDealTiles=true;
         Player_initial_dealTiles=players[0].hand;
         player=players[0];

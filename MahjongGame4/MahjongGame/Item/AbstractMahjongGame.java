@@ -46,7 +46,7 @@ public abstract class AbstractMahjongGame implements Game2 {
     public boolean isGameOver() {
         for (int i = 1; i < 4; i++) {
             if (players[0].getHand().isEmpty()) {
-                return gameOver = true;
+                return gameOver = false;
             }
         }
         return gameOver = false;

@@ -40,13 +40,15 @@ public abstract class PlayerBase {
 
     public void displayHand() {
         sortHand();
+
         for (MahjongTile tile : hand) {
-            System.out.print(tile + " ");
+            System.out.print(tile.toString() + " ");
         }
         System.out.println();
     }
 
     public void sortHand() {
+        System.out.print(hand);
         Collections.sort(hand, (t1, t2) -> {
             int suitOrder1 = getSuitOrder(t1.getSuit());
             int suitOrder2 = getSuitOrder(t2.getSuit());
