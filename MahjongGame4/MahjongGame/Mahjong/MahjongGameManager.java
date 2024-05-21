@@ -4,10 +4,12 @@ import Item.AbstractMahjongGame;
 import Mahjong.MahjongGame;
 
 import Players.Player;
+import UI.CardHoverEffect;
 import UI.GameScreen;
 import UI.PlayerListener;
 import ucd.comp2011j.engine.Game;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +29,7 @@ public class MahjongGameManager extends AbstractMahjongGame   {
     public static List<MahjongTile> computer1_hand;
     public static List<MahjongTile> computer2_hand;
     public static List<MahjongTile> computer3_hand;
+
 
 
 
@@ -55,17 +58,22 @@ public class MahjongGameManager extends AbstractMahjongGame   {
                 }
             }
         }
+        
         ifDealTiles=true;
 
         Player_initial_dealTiles=sortTiles_pre(players[0].hand);
-        computer1_hand=computers[0].hand;
-        computer2_hand=computers[1].hand;
-        computer3_hand=computers[2].hand;
+        computer1_hand=sortTiles_pre(computers[0].hand);
+        computer2_hand=sortTiles_pre(computers[1].hand);
+        computer3_hand=sortTiles_pre(computers[2].hand);
+
         displayHand_pre(Player_initial_dealTiles);
-        displayHand_pre(computer1_hand);
-        displayHand_pre(computer2_hand);
-        displayHand_pre(computer3_hand);
+        displayHand_pre_computer(computer1_hand);
+        displayHand_pre_computer(computer2_hand);
+        displayHand_pre_computer(computer3_hand);
         players[0].hand=Player_initial_dealTiles;
+        computers[0].hand=computer1_hand;
+        computers[1].hand=computer2_hand;
+        computers[2].hand=computer3_hand;
         player=players[0];
     }
 
@@ -85,6 +93,7 @@ public class MahjongGameManager extends AbstractMahjongGame   {
         System.out.println("游戏开始！");
 
         startGameScreen();
+        //SwingUtilities.invokeLater(GameScreen::new);
         dealTiles();
 
         //displayHand();
@@ -98,6 +107,35 @@ public class MahjongGameManager extends AbstractMahjongGame   {
     }
 
     public List<MahjongTile> sortTiles_pre(List<MahjongTile> hand){
+        List<MahjongTile> new_hand_1 = new ArrayList<>();
+        Integer[] sequence_1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+        // 遍历排序后的顺序
+        for (int value : sequence_1) {
+            // 遍历玩家手牌
+            for (MahjongTile tile : hand) {
+                // 如果牌的值与当前顺序值相同，将其添加到新手牌列表中
+                if (tile.getValue() == value) {
+                    new_hand_1.add(tile);
+                }
+            }
+        }
+
+        List<MahjongTile> new_hand_2 = new ArrayList<>();
+        String[] sequence = {"万","条","筒","东", "南", "西", "北", "中", "发", "白"};
+        for (int j = 0; j < 10; j++) {
+            for (MahjongTile tile : new_hand_1) {
+                if (tile.getSuit().equals(sequence[j])){
+                    new_hand_2.add(tile);
+                }
+            }
+        }
+
+
+        return new_hand_2;
+    }
+
+    public List<MahjongTile> sortTiles_pre2(List<MahjongTile> hand){
+        // 副本
         List<MahjongTile> new_hand = new ArrayList<>();
         String[] sequence = {"万","条","筒","东", "南", "西", "北", "中", "发", "白"};
         for (int j = 0; j < 10; j++) {
@@ -111,7 +149,16 @@ public class MahjongGameManager extends AbstractMahjongGame   {
     }
 
     public void displayHand_pre(List<MahjongTile> hand) {
-        System.out.println("the tiles in hand");
+        System.out.println("player: ");
+        //sortHand();
+        for (MahjongTile tile : hand) {
+            System.out.print(tile.toString() + " ");
+        }
+        System.out.println();
+    }
+
+    public void displayHand_pre_computer(List<MahjongTile> hand) {
+        System.out.println("computer: ");
         //sortHand();
         for (MahjongTile tile : hand) {
             System.out.print(tile.toString() + " ");
