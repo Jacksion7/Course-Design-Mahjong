@@ -1,21 +1,21 @@
 package Players;
 
-import GameRules.TouchDeal;
 import Item.PlayerBase;
 import Mahjong.MahjongTile;
 
 
 public class Computers extends PlayerBase {
+    private MahjongTile discardedTile;
+
     public Computers(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         super();
         this.discardedTile = discardedTile;
         this.players = players;
         this.computers = computers;
         this.playerIndex = playerIndex;
-        touchDeal = new TouchDeal(discardedTile, players, computers);
     }
 
-    public void computerPlay(MahjongTile discardedTile, int playerIndex) {
+    public void computerPlay(int playerIndex) {
         // 电脑玩家的回合
 //        if (win.isWin()) {
 //            if (gang.isGang()) {
@@ -33,23 +33,42 @@ public class Computers extends PlayerBase {
 //            System.out.println("已胡牌");
 //        }
         System.out.println("电脑能不能吃牌？");
-        if (chow.isChow(discardedTile, playerIndex, players, computers)) {
+        if (chow.isChow(discardedTile)) {
             System.out.println("已吃牌，进行出牌");
-            touchDeal.discardTile(playerIndex);
+            computerPlayTile(playerIndex);
         }
         System.out.println("你没有进行任何操作，进行出牌");
         computerTouchTile(playerIndex);
-        touchDeal.discardTile(playerIndex);
+        computerPlayTile(playerIndex);
     }
 
-    private void computerTouchTile(int playerIndex) {
+    public void computerTouchTile(int playerIndex) {
         MahjongTile tileDrawn = deck.drawTile();
         System.out.println("Player " + playerIndex + "摸到了一张牌：" + tileDrawn);
         drawTile(tileDrawn);
     }
 
-    public MahjongTile chooseTileToPlay() {
-        return getHand().get(random.nextInt(getHand().size()));
+    public MahjongTile computerPlayTile(int playerIndex) {
+        MahjongTile tileToPlay = getHand().get(random.nextInt(getHand().size()));
+        discardedTile = tileToPlay;
+        System.out.println("出的牌：" + discardedTile);
+        hand.remove(tileToPlay);
+        System.out.println("电脑 " + playerIndex + " 出了一张牌：" + tileToPlay);
+        return discardedTile;
+    }
+
+    public void dealComputerTile(MahjongTile tile) {
+        if (hand.contains(tile)) {
+            hand.remove(tile);
+            System.out.println("从手牌中移除: " + tile);
+        } else {
+            System.out.println("电脑手牌中没有这张牌: " + tile);
+        }
+        System.out.println();
+    }
+
+    public MahjongTile getDiscardedTile() {
+        return discardedTile;
     }
 
 }

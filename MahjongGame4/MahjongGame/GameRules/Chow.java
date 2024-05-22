@@ -1,14 +1,17 @@
 package GameRules;
 
+import Item.Tile;
 import Mahjong.MahjongTile;
 import Players.Computers;
 import Players.Player;
 import Item.PlayerBase;
 
+import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chow {
+    private TouchDeal touchDeal;
     private MahjongTile discardedTile;
     private Player[] players;
     private Player player;
@@ -16,14 +19,12 @@ public class Chow {
     private Computers[] computers;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
-    private TouchDeal touchDeal;
     private int playerIndex;
     public Chow(MahjongTile discardedTile, Player[] players, Computers[] computers, int playerIndex) {
         this.discardedTile = discardedTile;
         this.players = players;
         this.computers = computers;
         this.playerIndex = playerIndex;
-        touchDeal = new TouchDeal(discardedTile, players, computers);
     }
 
     /*
@@ -41,40 +42,47 @@ public class Chow {
     //是下家在摸牌之前判断能不能吃牌！！
     public boolean canChow(MahjongTile discardedTile, int playerIndex, Player[] players, Computers[] computers) {
 
-        System.out.println("出的牌是：" + discardedTile);
+        System.out.println("上家出的牌是：" + discardedTile);
 
         if (discardedTile != null) {
             int value = discardedTile.getValue();
             String suit = discardedTile.getSuit();
-            int nextPlayer = getPrePlayer(playerIndex);
+            int nextPlayer = playerIndex;
+
             // 检测一下读取的牌是否正确
             System.out.println("This: ----------------" + value + suit);
 
+            System.out.println(nextPlayer);
             // 获取当前玩家或电脑的手牌
             List<MahjongTile> hand = (nextPlayer == 0) ? players[nextPlayer].getHand() : computers[nextPlayer - 1].getHand();
+            System.out.println(hand);
 
-            //System.out.println("Hand: " + hand);
 
             // 检查是否为万、筒、条中的一种
             if (!suit.equals("万") && !suit.equals("筒") && !suit.equals("条")) {
                 return false;
             }
 
-            for (MahjongTile tile : hand) {
+            // 存储吃牌的三个牌
+            MahjongTile secondTile = null;
+            MahjongTile thirdTile = null;
+
+            for (int i = 0; i < hand.size(); i++) {
+                MahjongTile tile = hand.get(i);
                 if (tile.getSuit().equals(suit)) {
                     // 如果值为1，查找是否有值为2和3的牌
                     if (value == 1 && tile.getValue() == 2 && tileExists(3, suit, nextPlayer, players, computers)) {
                         secondTile = new MahjongTile(suit, 2);
                         thirdTile = new MahjongTile(suit, 3);
                         System.out.println("[从1查 " + value + secondTile + thirdTile + "]");
-                        return true;
+                        break;
                     }
                     // 如果值为9，查找是否有值为8和7的牌
                     else if (value == 9 && tile.getValue() == 8 && tileExists(7, suit, nextPlayer, players, computers)) {
                         secondTile = new MahjongTile(suit, 8);
                         thirdTile = new MahjongTile(suit, 7);
                         System.out.println("[从9查 " + value + secondTile + thirdTile + "]");
-                        return true;
+                        break;
                     }
                     // 如果值为2，分两部分查，第一查（1,3），第二查（3,4）
                     else if (value == 2) {
@@ -82,14 +90,13 @@ public class Chow {
                             secondTile = new MahjongTile(suit, 1);
                             thirdTile = new MahjongTile(suit, 3);
                             System.out.println("[2查（1,3） " + value + secondTile + thirdTile + "]");
-                            return true;
+                            break;
                         } else if (tile.getValue() == 3 && tileExists(4, suit, nextPlayer, players, computers)) {
                             secondTile = new MahjongTile(suit, 3);
                             thirdTile = new MahjongTile(suit, 4);
                             System.out.println("[2查（3,4） " + value + secondTile + thirdTile + "]");
-                            return true;
+                            break;
                         }
-                        return false;
                     }
                     // 如果值为8，分两部分查，第一查（7,9），第二查（6,7）
                     else if (value == 8) {
@@ -97,14 +104,13 @@ public class Chow {
                             secondTile = new MahjongTile(suit, 7);
                             thirdTile = new MahjongTile(suit, 9);
                             System.out.println("[8查（7,9） " + value + secondTile + thirdTile + "]");
-                            return true;
+                            break;
                         } else if (tile.getValue() == 6 && tileExists(7, suit, nextPlayer, players, computers)) {
                             secondTile = new MahjongTile(suit, 6);
                             thirdTile = new MahjongTile(suit, 7);
                             System.out.println("[8查（6,7） " + value + secondTile + thirdTile + "]");
-                            return true;
+                            break;
                         }
-                        return false;
                     }
                     // 如果值为3~7，分三部分查，第一查（value-1和value-2），第二查（value+1和value+2），第三查（value-1和value+1）
                     else if (value >= 3 && value <= 7) {
@@ -112,23 +118,34 @@ public class Chow {
                             secondTile = new MahjongTile(suit, value - 1);
                             thirdTile = new MahjongTile(suit, value - 2);
                             System.out.println("[-1-2 " + value + secondTile + thirdTile + "]");
-                            return true;
+                            break;
                         } else if (tile.getValue() == value + 1 && tileExists(value + 2, suit, nextPlayer, players, computers)) {
                             secondTile = new MahjongTile(suit, value + 1);
                             thirdTile = new MahjongTile(suit, value + 2);
                             System.out.println("[+1+2 " + value + secondTile + thirdTile + "]");
-                            return true;
+                            break;
                         } else if (tile.getValue() == value - 1 && tileExists(value + 1, suit, nextPlayer, players, computers)) {
                             secondTile = new MahjongTile(suit, value - 1);
                             thirdTile = new MahjongTile(suit, value + 1);
                             System.out.println("[-1+1 " + value + secondTile + thirdTile + "]");
-                            return true;
                         }
-                        return false;
                     }
+                }
+            }
+
+            if (secondTile != null && thirdTile != null) {
+
+                // 处理吃牌逻辑，将secondTile和thirdTile从手牌中移除，并添加到玩家或电脑的吃牌组合中
+                if (nextPlayer == 0) {
+                    Player player = players[nextPlayer];
                     player.dealPlayerTile(secondTile);
                     player.dealPlayerTile(thirdTile);
+                } else {
+                    Computers computer = computers[nextPlayer - 1];
+                    computer.dealComputerTile(secondTile);
+                    computer.dealComputerTile(thirdTile);
                 }
+                return true;
             }
         }
         return false;
@@ -146,29 +163,20 @@ public class Chow {
     }
 
     public void chowTile(MahjongTile discardedTile, int playerIndex) {
-        // 检查是否可以吃牌
-        if (canChow(discardedTile, playerIndex, players, computers)) {
+        // 添加顺子牌到新的列表中
+        List<MahjongTile> rulesTiles =  new ArrayList<>();
+        rulesTiles.add(discardedTile);
+        rulesTiles.add(secondTile);
+        rulesTiles.add(thirdTile);
+        playerBase.sortHand();
 
-            // 添加顺子牌到新的列表中
-            List<MahjongTile> rulesTiles =  new ArrayList<>();
-            rulesTiles.add(discardedTile);
-            rulesTiles.add(secondTile);
-            rulesTiles.add(thirdTile);
-            playerBase.sortHand();
-
-            //System.out.println(playerIndex + 1);
-            // 输出吃牌信息
-            System.out.println("玩家" + (playerIndex + 1) + "吃牌成功：" + rulesTiles);
-        } else {
-            System.out.println("玩家" + (playerIndex + 1) + "无法吃牌！");
-        }
+        //System.out.println(playerIndex + 1);
+        // 输出吃牌信息
+        System.out.println("玩家" + (playerIndex + 1) + "吃牌成功：" + rulesTiles);
     }
 
-    public boolean isChow(MahjongTile discardedTile, int playerIndex, Player[] players, Computers[] computers) {
-
+    public boolean isChow(MahjongTile discardedTile) {
         System.out.println("进入判断isChow");
-        System.out.println("在isChow方法中discardedTile是: " + discardedTile);
-
         if (canChow(discardedTile, playerIndex, players, computers)) {
             System.out.println("可以吃牌");
             chowTile(discardedTile, playerIndex);

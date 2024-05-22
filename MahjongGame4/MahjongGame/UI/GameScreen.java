@@ -8,6 +8,8 @@ import Players.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import Players.Player;
 import Mahjong.MahjongTile;
@@ -24,14 +26,19 @@ public class GameScreen extends JFrame {
     int startY2 = mahjongHeight; // 20像素距离屏幕底部
     int startY3 = mahjongHeight + 80; // 20像素距离屏幕底部
 
+    private JLabel selectedCard = null;
+    private static final int HOVER_DISTANCE = 20;
+
     public GameScreen() {
 
         setTitle("Image Frame Example");
         setSize(800, 800);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // 创建一个JPanel用于显示图片
         JPanel panel = new JPanel() {
+
             @Override
             protected void paintComponent(Graphics g) {
                 //super.paintComponent(g);
@@ -52,15 +59,62 @@ public class GameScreen extends JFrame {
                 g.drawImage(player3, 660, 660, 100, 100, this);
                 g.drawImage(player4, 660, 10, 100, 100, this);
 
+
                 Graphics2D g2 = (Graphics2D) g.create();
-                // Graphics g2 =  g;
+
                 initialPlayerTiles(g2);
 
-            }
-        };
+//                if(MahjongGameManager.ifDealTiles){
+//                    paintTiles(MahjongGameManager.player,g2);
+//                }
 
+
+                //SwingUtilities.invokeLater(GameScreen::new);
+                int i = 0;
+                for (MahjongTile tile : MahjongGameManager.player.hand) {
+                    matchTilesWithImage(tile);
+                    JLabel t =paintTiles2(tile,i);
+                    add(t);
+                    i++;
+                }
+
+
+            }
+
+        };
+        panel.setLayout(new BorderLayout());
+        JButton button = new JButton();
+        JButton button2 = new JButton("Draw ");
+        JButton button3 = new JButton("Select ");
+        button.setOpaque(false);
+
+        Image touch = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/touch.png").
+                getImage().getScaledInstance(90,130,Image.SCALE_SMOOTH);
+        Image draw = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/draw.png").
+                getImage().getScaledInstance(90,130,Image.SCALE_SMOOTH);
+        Image select = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/select.png").
+                getImage().getScaledInstance(80,120,Image.SCALE_SMOOTH);;
+
+        ImageIcon touchCon = new ImageIcon(touch);// give the image on the button
+        button.setIcon(touchCon);
+        ImageIcon drawCon = new ImageIcon(draw);
+        button2.setIcon(drawCon);
+        ImageIcon selectCon = new ImageIcon(select);
+        button3.setIcon(selectCon);
+
+        button.setBounds(200, 550, 70,100); // x, y, width, height
+        button2.setBounds(350, 550, 70,100);
+        button3.setBounds(500, 550, 70,100);
+        panel.setLayout(null);
+
+        panel.add(button);
+        panel.add(button2);
+        panel.add(button3);
         add(panel);
     }
+
+
+
 
     protected void initialPlayerTiles(Graphics2D g2d) {
         Image tile_Face = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_Face.png").getImage();
@@ -86,6 +140,46 @@ public class GameScreen extends JFrame {
             i++;
         }
     }
+
+    public JLabel paintTiles2(MahjongTile tile, int index) {
+        // assign the ImagePath of tiles
+        ImageIcon originalIcon = new ImageIcon(tile.ImagePath);
+        Image scaledImage = originalIcon.getImage().getScaledInstance(mahjongWidth, mahjongHeight, Image.SCALE_FAST);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+
+        //Image temp = new ImageIcon(tile.ImagePath).getImage();
+        JLabel card = new JLabel(scaledIcon);
+        card.setOpaque(true);
+        card.setHorizontalAlignment(SwingConstants.CENTER);
+        card.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        card.setBounds(startX1 - 120 + index * 40, startY1 -40 , mahjongWidth, mahjongHeight);
+        //g2d.drawImage(temp, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
+
+        card.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                selectedCard = card;
+                moveCard(card,card.getX(), card.getY() - HOVER_DISTANCE);
+                //card.setBounds(card.getX(), card.getY() - HOVER_DISTANCE, mahjongWidth, mahjongHeight);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                moveCard(card,card.getX(), card.getY() + HOVER_DISTANCE);
+                //card.setBounds(card.getX(), card.getY() + HOVER_DISTANCE, mahjongWidth, mahjongHeight);
+                card.setVisible(false);
+                selectedCard = null;
+            }
+        });
+        return card;
+    }
+
+    private void moveCard(JLabel card, int x, int y) {
+        card.setLocation(x, y);
+    }
+
+
 
     // set ImagePath of each tiles
     public static void matchTilesWithImage(MahjongTile tile) {
@@ -149,31 +243,31 @@ public class GameScreen extends JFrame {
         }
         if (tile.getSuit() == "筒") {
             if (tile.getValue() == 1) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao1.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong1.png";
             }
             if (tile.getValue() == 2) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao2.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong2.png";
             }
             if (tile.getValue() == 3) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao3.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong3.png";
             }
             if (tile.getValue() == 4) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao4.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong4.png";
             }
             if (tile.getValue() == 5) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao5.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong5.png";
             }
             if (tile.getValue() == 6) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao6.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong6.png";
             }
             if (tile.getValue() == 7) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao7.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong7.png";
             }
             if (tile.getValue() == 8) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao8.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong8.png";
             }
             if (tile.getValue() == 9) {
-                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao9.png";
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong9.png";
             }
         }
         if (tile.getSuit()=="中"){
@@ -183,7 +277,7 @@ public class GameScreen extends JFrame {
             tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/fa.png";
         }
         if (tile.getSuit()=="白"){
-            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/ba.png";
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/white.png";
         }
         if (tile.getSuit()=="东"){
             tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/east.png";
