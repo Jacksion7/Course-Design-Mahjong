@@ -1,6 +1,5 @@
 package UI;
 
-import Mahjong.MahjongGame;
 import Mahjong.MahjongGameManager;
 import Mahjong.MahjongTile;
 import Players.Player;
@@ -14,9 +13,7 @@ import java.util.ArrayList;
 import Players.Player;
 import Mahjong.MahjongTile;
 
-public class GameScreen extends JFrame {
-
-    MahjongGame mahjongGame;
+public class GameScreen extends JFrame { ;
 
     int mahjongWidth = 40;
     int mahjongHeight = 60;

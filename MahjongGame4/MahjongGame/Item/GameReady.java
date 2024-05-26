@@ -1,6 +1,6 @@
-package Item;
-
-public interface GameReady {
-    void playGame();
-    boolean isGameOver();
-}
+//package Item;
+//
+//public interface GameReady {
+//    void playGame();
+//    boolean isGameOver();
+//}
