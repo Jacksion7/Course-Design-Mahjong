@@ -38,6 +38,7 @@ public class Player {
         System.out.println();
     }
 
+
     public List<MahjongTile> getRulesTiles() {
         return rulesTiles;
     }
