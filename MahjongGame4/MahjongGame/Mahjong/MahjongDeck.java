@@ -1,13 +1,11 @@
 package Mahjong;
 
-import Item.Deck;
-
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MahjongDeck implements Deck {
+public class MahjongDeck {
     //牌库
     final List<MahjongTile> tilesLibrary;
     //随机数生成器
@@ -23,15 +21,15 @@ public class MahjongDeck implements Deck {
         //初始化牌库
         for (int i = 1; i <= 9; i++) {
             for (int j = 0; j < 4; j++) {
-                tilesLibrary.add(new MahjongTile("万", i));
-                tilesLibrary.add(new MahjongTile("条", i));
-                tilesLibrary.add(new MahjongTile("筒", i));
+                tilesLibrary.add(new MahjongTile(i, "万"));
+                tilesLibrary.add(new MahjongTile(i, "条"));
+                tilesLibrary.add(new MahjongTile(i, "筒"));
             }
         }
         String[] honors = {"东", "南", "西", "北", "中", "发", "白"};
         for (String honor : honors) {
             for (int i = 0; i < 4; i++) {
-                tilesLibrary.add(new MahjongTile(honor, 0));
+                tilesLibrary.add(new MahjongTile(0, honor));
             }
         }
     }
@@ -45,8 +43,53 @@ public class MahjongDeck implements Deck {
         return tilesLibrary.remove(index);
     }
 
-
     public List<MahjongTile> getTilesLibrary() {
         return tilesLibrary;
     }
+
+
+    //这部分是用来测试的，出现了重复牌的问题，但不是这个牌堆的问题
+    public static void main(String[] args) {
+        MahjongDeck deck = new MahjongDeck();
+        List<MahjongTile> hand = deck.getTilesLibrary();
+        Collections.sort(hand, (t1, t2) -> {
+            int suitOrder1 = getSuitOrder(t1.getSuit());
+            int suitOrder2 = getSuitOrder(t2.getSuit());
+            if (suitOrder1 != suitOrder2) {
+                return suitOrder1 - suitOrder2;
+            }
+            return t1.getValue() - t2.getValue();
+        });
+        printHand(hand);
+    }
+
+    private static int getSuitOrder(String suit) {
+        return switch (suit) {
+            case "万" -> 0;
+            case "条" -> 1;
+            case "筒" -> 2;
+            case "东" -> 3;
+            case "西" -> 4;
+            case "南" -> 5;
+            case "北" -> 6;
+            case "中" -> 7;
+            case "发" -> 8;
+            default -> 9;
+        };
+    }
+
+    private static void printHand(List<MahjongTile> hand) {
+        int count = 0;
+        for (MahjongTile tile : hand) {
+            System.out.print(tile + " ");
+            count++;
+            if (count % 4 == 0) {
+                System.out.println();  // 每四个值进行一次换行
+            }
+        }
+        if (count % 4 != 0) {
+            System.out.println();  // 打印后续的换行符，如果最后一行不足四个值
+        }
+    }
 }
+

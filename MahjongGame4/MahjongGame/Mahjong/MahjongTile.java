@@ -1,11 +1,9 @@
 package Mahjong;
 
-import Item.Tile;
-
 import java.util.Objects;
 
 //这个方法主要是用来创建麻将牌的类，每个麻将牌都有花色和数值。输出的是String的形式。
-public class MahjongTile implements Tile {
+public class MahjongTile{
     //花色
     private String suit;
     //数值
@@ -14,7 +12,7 @@ public class MahjongTile implements Tile {
     public String ImagePath;
 
     //构造麻将牌
-    public MahjongTile(String suit, int value) {
+    public MahjongTile(int value, String suit) {
         this.suit = suit;
         this.value = value;
     }

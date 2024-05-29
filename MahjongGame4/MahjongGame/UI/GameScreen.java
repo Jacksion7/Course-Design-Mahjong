@@ -1,6 +1,5 @@
 package UI;
 
-import Mahjong.MahjongGame;
 import Mahjong.MahjongGameManager;
 import Mahjong.MahjongTile;
 import Players.Player;
@@ -14,9 +13,7 @@ import java.util.ArrayList;
 import Players.Player;
 import Mahjong.MahjongTile;
 
-public class GameScreen extends JFrame {
-
-    MahjongGame mahjongGame;
+public class GameScreen extends JFrame { ;
 
     int mahjongWidth = 40;
     int mahjongHeight = 60;
@@ -27,7 +24,9 @@ public class GameScreen extends JFrame {
     int startY3 = mahjongHeight + 80; // 20像素距离屏幕底部
 
     private JLabel selectedCard = null;
-    private static final int HOVER_DISTANCE = 20;
+    private static JLabel selectedLabel;
+
+
 
     public GameScreen() {
 
@@ -84,9 +83,11 @@ public class GameScreen extends JFrame {
         };
         panel.setLayout(new BorderLayout());
         JButton button = new JButton();
-        JButton button2 = new JButton("Draw ");
+        JButton draw_button = new JButton("Draw ");
         JButton button3 = new JButton("Select ");
         button.setOpaque(false);
+
+        draw_button.addActionListener(e -> moveSelectedLabelsToCenter());
 
         Image touch = new ImageIcon("MahjongGame4/imgSet/PlayScreen/button/touch.png").
                 getImage().getScaledInstance(90,130,Image.SCALE_SMOOTH);
@@ -98,17 +99,17 @@ public class GameScreen extends JFrame {
         ImageIcon touchCon = new ImageIcon(touch);// give the image on the button
         button.setIcon(touchCon);
         ImageIcon drawCon = new ImageIcon(draw);
-        button2.setIcon(drawCon);
+        draw_button.setIcon(drawCon);
         ImageIcon selectCon = new ImageIcon(select);
         button3.setIcon(selectCon);
 
         button.setBounds(200, 550, 70,100); // x, y, width, height
-        button2.setBounds(350, 550, 70,100);
+        draw_button.setBounds(350, 550, 70,100);
         button3.setBounds(500, 550, 70,100);
         panel.setLayout(null);
 
         panel.add(button);
-        panel.add(button2);
+        panel.add(draw_button);
         panel.add(button3);
         add(panel);
     }
@@ -131,15 +132,7 @@ public class GameScreen extends JFrame {
         }
     }
 
-    public void paintTiles(Player player, Graphics2D g2d) {
-        int i = 0;
-        for (MahjongTile tile : player.hand) {
-            matchTilesWithImage(tile);// assign the ImagePath of tiles
-            Image temp = new ImageIcon(tile.ImagePath).getImage();
-            g2d.drawImage(temp, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
-            i++;
-        }
-    }
+
 
     public JLabel paintTiles2(MahjongTile tile, int index) {
         // assign the ImagePath of tiles
@@ -148,31 +141,38 @@ public class GameScreen extends JFrame {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
 
-        //Image temp = new ImageIcon(tile.ImagePath).getImage();
+
         JLabel card = new JLabel(scaledIcon);
         card.setOpaque(true);
         card.setHorizontalAlignment(SwingConstants.CENTER);
         card.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         card.setBounds(startX1 - 120 + index * 40, startY1 -40 , mahjongWidth, mahjongHeight);
-        //g2d.drawImage(temp, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
 
         card.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                selectedCard = card;
-                moveCard(card,card.getX(), card.getY() - HOVER_DISTANCE);
-                //card.setBounds(card.getX(), card.getY() - HOVER_DISTANCE, mahjongWidth, mahjongHeight);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                moveCard(card,card.getX(), card.getY() + HOVER_DISTANCE);
-                //card.setBounds(card.getX(), card.getY() + HOVER_DISTANCE, mahjongWidth, mahjongHeight);
-                card.setVisible(false);
-                selectedCard = null;
+            private int initialY; // 初始Y坐标
+            public void mousePressed(MouseEvent e) {
+                selectedLabel = card;
+                initialY = card.getY(); // 记录初始Y坐标
+                card.setLocation(card.getX(), initialY - 20);
+                card.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
             }
         });
         return card;
+    }
+
+    private static void moveSelectedLabelsToCenter() {
+        if (selectedLabel != null) {
+            Container parent = selectedLabel.getParent();
+            int parentWidth = parent.getWidth();
+            int parentHeight = parent.getHeight();
+            int labelWidth = selectedLabel.getWidth();
+            int labelHeight = selectedLabel.getHeight();
+
+            int centerX = (parentWidth - labelWidth) / 2;
+            int centerY = (parentHeight - labelHeight) / 2;
+
+            selectedLabel.setLocation(centerX, centerY);
+        }
     }
 
     private void moveCard(JLabel card, int x, int y) {

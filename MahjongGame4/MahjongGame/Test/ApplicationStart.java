@@ -1,7 +1,6 @@
 package Test;
 
 
-import Mahjong.MahjongGame;
 import Mahjong.MahjongGameManager;
 import UI.*;
 import ucd.comp2011j.engine.GameManager;

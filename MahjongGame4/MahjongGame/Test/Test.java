@@ -1,7 +1,6 @@
 package Test;
 
 import Mahjong.MahjongDeck;
-import Mahjong.MahjongGame;
 import Mahjong.MahjongTile;
 
 public class Test {
@@ -14,7 +13,7 @@ public class Test {
 
     }
     public static void testMahjongTile() {
-        MahjongTile tile = new MahjongTile("万", 1);
+        MahjongTile tile = new MahjongTile(1, "万");
         System.out.println("Suit: " + tile.getSuit());
         System.out.println("Value: " + tile.getValue());
         System.out.println("Tile: " + tile);
