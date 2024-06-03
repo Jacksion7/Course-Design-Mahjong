@@ -8,7 +8,7 @@ import java.util.*;
 public class Rules {
     private Scanner scanner;
     private Player[] players;
-    private MahjongTile discardTile;
+    public MahjongTile discardTile;
     private int playerIndex;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
