@@ -241,7 +241,7 @@ public class Rules {
             chowTile(discardTile, playerIndex);
             return true;
         } else {
-            System.out.println("不可以吃牌");;
+            System.out.println("不可以吃牌");
             return false;
         }
     }
@@ -301,7 +301,7 @@ public class Rules {
             pengTile(discardTile, playerIndex);
             return true;
         } else {
-            System.out.println("不可以碰牌");;
+            System.out.println("不可以碰牌");
             return false;
         }
     }
@@ -366,7 +366,7 @@ public class Rules {
             gangTile(discardTile, playerIndex);
             return true;
         } else {
-            System.out.println("不可以杠牌");;
+            System.out.println("不可以杠牌");
             return false;
         }
     }
