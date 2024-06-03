@@ -8,7 +8,7 @@ import java.util.*;
 public class Rules {
     private Scanner scanner;
     private Player[] players;
-    private MahjongTile discardTile;
+    public MahjongTile discardTile;
     private int playerIndex;
     private MahjongTile secondTile;
     private MahjongTile thirdTile;
@@ -135,14 +135,14 @@ public class Rules {
             for (MahjongTile tile : hand) {
                 if (tile.getSuit().equals(suit)) {
                     // 如果值为1，查找是否有值为2和3的牌
-                    if (value == 1 && tile.getValue() == 2 && tileExists(3, suit, playerIndex, players)) {
+                    if (value == 1 && tileExists(2, suit, playerIndex, players) && tileExists(3, suit, playerIndex, players)) {
                         secondTile = new MahjongTile(2, suit);
                         thirdTile = new MahjongTile(3, suit);
                         System.out.println("[从1查 " + value + secondTile + thirdTile + "]");
                         return true;
                     }
                     // 如果值为9，查找是否有值为8和7的牌
-                    else if (value == 9 && tile.getValue() == 8 && tileExists(7, suit, playerIndex, players)) {
+                    else if (value == 9 && tileExists(8, suit, playerIndex, players) && tileExists(7, suit, playerIndex, players)) {
                         secondTile = new MahjongTile(8, suit);
                         thirdTile = new MahjongTile(7, suit);
                         System.out.println("[从9查 " + value + secondTile + thirdTile + "]");
@@ -150,12 +150,12 @@ public class Rules {
                     }
                     // 如果值为2，分两部分查，第一查（1,3），第二查（3,4）
                     else if (value == 2) {
-                        if (tile.getValue() == 1 && tileExists(3, suit, playerIndex, players)) {
+                        if (tileExists(1, suit, playerIndex, players) && tileExists(3, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(1, suit);
                             thirdTile = new MahjongTile(3, suit);
                             System.out.println("[2查（1,3） " + value + secondTile + thirdTile + "]");
                             return true;
-                        } else if (tile.getValue() == 3 && tileExists(4, suit, playerIndex, players)) {
+                        } else if (tileExists(3, suit, playerIndex, players) && tileExists(4, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(3, suit);
                             thirdTile = new MahjongTile(4, suit);
                             System.out.println("[2查（3,4） " + value + secondTile + thirdTile + "]");
@@ -165,12 +165,12 @@ public class Rules {
                     }
                     // 如果值为8，分两部分查，第一查（7,9），第二查（6,7）
                     else if (value == 8) {
-                        if (tile.getValue() == 7 && tileExists(9, suit, playerIndex, players)) {
+                        if (tileExists(7, suit, playerIndex, players) && tileExists(9, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(7, suit);
                             thirdTile = new MahjongTile(9, suit);
                             System.out.println("[8查（7,9） " + value + secondTile + thirdTile + "]");
                             return true;
-                        } else if (tile.getValue() == 6 && tileExists(7, suit, playerIndex, players)) {
+                        } else if (tileExists(6, suit, playerIndex, players) && tileExists(7, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(6, suit);
                             thirdTile = new MahjongTile(7, suit);
                             System.out.println("[8查（6,7） " + value + secondTile + thirdTile + "]");
@@ -179,24 +179,28 @@ public class Rules {
                         return false;
                     }
                     // 如果值为3~7，分三部分查，第一查（value-1和value-2），第二查（value+1和value+2），第三查（value-1和value+1）
-                    else if (value >= 3 && value <= 7) {
-                        if (tile.getValue() == value - 1 && tileExists(value - 2, suit, playerIndex, players)) {
+                    if (value >= 3 && value <= 7) {
+                        // 检查顺子 -1 和 -2
+                        if (tileExists(value - 1, suit, playerIndex, players) && tileExists(value - 2, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(value - 1, suit);
                             thirdTile = new MahjongTile(value - 2, suit);
                             System.out.println("[-1-2 " + value + secondTile + thirdTile + "]");
                             return true;
-                        } else if (tile.getValue() == value + 1 && tileExists(value + 2, suit, playerIndex, players)) {
+                        }
+                        // 检查顺子 +1 和 +2
+                        if (tileExists(value + 1, suit, playerIndex, players) && tileExists(value + 2, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(value + 1, suit);
                             thirdTile = new MahjongTile(value + 2, suit);
                             System.out.println("[+1+2 " + value + secondTile + thirdTile + "]");
                             return true;
-                        } else if (tile.getValue() == value - 1 && tileExists(value + 1, suit, playerIndex, players)) {
+                        }
+                        // 检查顺子 -1 和 +1
+                        if (tileExists(value - 1, suit, playerIndex, players) && tileExists(value + 1, suit, playerIndex, players)) {
                             secondTile = new MahjongTile(value - 1, suit);
                             thirdTile = new MahjongTile(value + 1, suit);
                             System.out.println("[-1+1 " + value + secondTile + thirdTile + "]");
                             return true;
                         }
-                        return false;
                     }
 //                    players[playerIndex].dealPlayerTile(secondTile);
 //                    players[playerIndex].dealPlayerTile(thirdTile);
@@ -241,7 +245,7 @@ public class Rules {
             chowTile(discardTile, playerIndex);
             return true;
         } else {
-            System.out.println("不可以吃牌");;
+            System.out.println("不可以吃牌");
             return false;
         }
     }
@@ -286,7 +290,7 @@ public class Rules {
         players[playerIndex].sortHand();
         //System.out.println(playerIndex + 1);
         // 输出吃牌信息
-        System.out.println("玩家" + (playerIndex + 1) + "碰牌成功：" + rulesTile);
+        System.out.println("玩家" + (playerIndex + 1) + "碰牌成功：" + discardedTile);
         rulesTiles = rulesTile;
         players[playerIndex].dealPlayerTile(secondTile);
         players[playerIndex].dealPlayerTile(thirdTile);
@@ -301,72 +305,94 @@ public class Rules {
             pengTile(discardTile, playerIndex);
             return true;
         } else {
-            System.out.println("不可以碰牌");;
+            System.out.println("不可以碰牌");
             return false;
         }
     }
 
     //----------------------------------Gang----------------------------------
+    // 检查是否可以杠牌
     public boolean canGang(MahjongTile discardedTile, int playerIndex, Player[] players) {
-        //System.out.println("出的牌是：---->>>" + discardedTile);
+        int value = discardedTile.getValue();
+        String suit = discardedTile.getSuit();
+        List<MahjongTile> hand = players[playerIndex].getHand();
 
-        if (discardedTile != null) {
-            int value = discardedTile.getValue();
-            String suit = discardedTile.getSuit();
-            // 检测一下读取的牌是否正确
-            System.out.println("This: ----------------" + value + suit);
-
-            // 获取当前玩家或电脑的手牌
-            List<MahjongTile> hand = players[playerIndex].getHand();
-
-            int count = 0;
-            for (MahjongTile tile : hand) {
-                if (Objects.equals(tile.getSuit(), suit) && tile.getValue() == value) {
-                    if (count == 0) {
-                        secondTile = tile;
-                    } else if (count == 1) {
-                        thirdTile = tile;
-                    } else if (count == 2) {
-                        fourthTile = tile;
-                    }
-                    count++;
+        int count = 0;
+        for (MahjongTile tile : hand) {
+            if (Objects.equals(tile.getSuit(), suit) && tile.getValue() == value) {
+                if (count == 0) {
+                    secondTile = tile;
+                } else if (count == 1) {
+                    thirdTile = tile;
+                } else if (count == 2) {
+                    fourthTile = tile;
                 }
-                if (count >= 3) {
-                    return true;
-                }
+                count++;
             }
         }
+        // 如果手中有3张，且出牌与这些牌相同，则可以杠
+        if (count == 3) {
+            return true;
+        }
+
+        // 检查规则牌中是否有3张相同的牌
+        List<MahjongTile> rulesTiles = players[playerIndex].getRulesTiles();
+        count = 0;
+        for (MahjongTile tile : rulesTiles) {
+            if (Objects.equals(tile.getSuit(), suit) && tile.getValue() == value) {
+                count++;
+            }
+        }
+
+        // 如果规则牌中有3张，且自己摸到第4张，则可以杠
+        if (count == 3 && hand.contains(discardedTile)) {
+            fourthTile = discardedTile;
+            return true;
+        }
+
         return false;
     }
 
     // 进行杠牌操作
     public void gangTile(MahjongTile discardedTile, int playerIndex) {
         List<MahjongTile> rulesTile = players[playerIndex].getRulesTiles();
-        // 添加顺子牌到新的列表中
-        rulesTile.add(discardedTile);
-        rulesTile.add(secondTile);
-        rulesTile.add(thirdTile);
+
+        // 检查是否是通过碰牌凑成的杠
+        int value = discardedTile.getValue();
+        String suit = discardedTile.getSuit();
+        int count = 0;
+        for (MahjongTile tile : rulesTile) {
+            if (Objects.equals(tile.getSuit(), suit) && tile.getValue() == value) {
+                count++;
+            }
+        }
+
+        if (count == 3) {
+            rulesTile.add(fourthTile);
+            players[playerIndex].dealPlayerTile(fourthTile);
+        } else {
+            rulesTile.add(discardedTile);
+            rulesTile.add(secondTile);
+            rulesTile.add(thirdTile);
+            rulesTile.add(fourthTile);
+            players[playerIndex].dealPlayerTile(secondTile);
+            players[playerIndex].dealPlayerTile(thirdTile);
+            players[playerIndex].dealPlayerTile(fourthTile);
+        }
+
         sortRulesTiles(rulesTile);
         players[playerIndex].sortHand();
-        //System.out.println(playerIndex + 1);
-        // 输出吃牌信息
         System.out.println("玩家" + (playerIndex + 1) + "杠牌成功：" + rulesTile);
         rulesTiles = rulesTile;
-        players[playerIndex].dealPlayerTile(secondTile);
-        players[playerIndex].dealPlayerTile(thirdTile);
-        players[playerIndex].dealPlayerTile(fourthTile);
     }
 
     public boolean isGang() {
-        //System.out.println("进入判断isGang");
-        //System.out.println("在isGang方法中discardedTile是: " + discardTile);
-
         if (canGang(discardTile, playerIndex, players)) {
             System.out.println("可以杠牌");
             gangTile(discardTile, playerIndex);
             return true;
         } else {
-            System.out.println("不可以杠牌");;
+            System.out.println("不可以杠牌");
             return false;
         }
     }
