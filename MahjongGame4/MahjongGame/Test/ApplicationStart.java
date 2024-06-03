@@ -23,11 +23,11 @@ public class ApplicationStart {
         mainWindow.addKeyListener(menuListener);
 
         MahjongGameManager game = new MahjongGameManager(playerListener);
-       // MahjongGame game =new MahjongGame(playerListener);
-        //GameScreen gameScreen = new GameScreen(game);
-        //MenuScreen menuScreen = new MenuScreen();
+        //MahjongGame game =new MahjongGame(playerListener);
+        GameScreen gameScreen = new GameScreen();
+        MenuScreen menuScreen = new MenuScreen();
         //MahjongGame mahjongGame= new MahjongGame();
-        //game.playGame();
+        game.startGame();
 
         ScoreKeeper scoreKeeper = new ScoreKeeper("scores.txt");
 

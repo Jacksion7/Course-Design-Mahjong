@@ -399,6 +399,172 @@ public class Rules {
 
     //----------------------------------Win-------------------------------------
 
+    public enum WinType {
+        SEVEN_PAIRS, // 七对
+        STRAIGHT,    // 平胡
+        ALL_PONGS    // 将对
+        // 其他胡牌方式可以继续添加
+    }
+
+    public boolean isWin(List<MahjongTile> hand) {
+        // 遍历所有的胡牌方式
+        for (WinType type : WinType.values()) {
+            // 检查当前胡牌方式是否满足胡牌条件
+            if (checkWin(hand, type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkWin(List<MahjongTile> hand, WinType type) {
+        switch (type) {
+            case SEVEN_PAIRS:
+                return checkSevenPairs(hand);
+            case STRAIGHT:
+                return checkStraight(hand);
+//                case ALL_PONGS:
+//                    return checkAllPongs(hand);
+            // 添加其他胡牌方式的判断条件
+            default:
+                return false;
+        }
+    }
+
+    private boolean checkSevenPairs(List<MahjongTile> hand) {
+        // 七对需要手牌中的每张牌都有一对
+        if (hand.size() != 14) {
+            return false;
+        }
+
+        // 检查手牌中的每两张牌是否一样
+        for (int i = 0; i < 14; i += 2) {
+            if (!hand.get(i).equals(hand.get(i + 1))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 检查平胡
+    public boolean checkStraight(List<MahjongTile> hand) {
+        // 平胡需要手牌中的牌符合一定的顺子或刻子的条件
+        if (hand.size() != 14) {
+            return false;
+        }
+
+        hand.sort((t1, t2) -> {
+            int suitOrder1 = getSuitOrder(t1.getSuit());
+            int suitOrder2 = getSuitOrder(t2.getSuit());
+            if (suitOrder1 != suitOrder2) {
+                return suitOrder1 - suitOrder2;
+            }
+            return t1.getValue() - t2.getValue();
+        });
+
+        // 检查所有可能的组合
+        return checkCombinations(hand, 4, 0) ||
+                checkCombinations(hand, 3, 1) ||
+                checkCombinations(hand, 2, 2) ||
+                checkCombinations(hand, 1, 3) ||
+                checkCombinations(hand, 0, 4);
+    }
+
+    private boolean checkCombinations(List<MahjongTile> hand, int numSequences, int numTriplets) {
+        if (hand.size() != 14) {
+            return false;
+        }
+
+        List<MahjongTile> remainingHand = new ArrayList<>(hand);
+
+        // 尝试找到一对将
+        for (int i = 0; i < remainingHand.size() - 1; i++) {
+            if (remainingHand.get(i).equals(remainingHand.get(i + 1))) {
+                List<MahjongTile> handWithoutPair = new ArrayList<>(remainingHand);
+                handWithoutPair.remove(i);
+                handWithoutPair.remove(i);
+
+                if (canFormValidSets(handWithoutPair, numSequences, numTriplets)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean canFormValidSets(List<MahjongTile> hand, int numSequences, int numTriplets) {
+        if (hand.isEmpty() && numSequences == 0 && numTriplets == 0) {
+            return true;
+        }
+
+        if (numSequences > 0 && canFormSequence(hand)) {
+            List<MahjongTile> remainingHand = removeSequence(hand);
+            if (canFormValidSets(remainingHand, numSequences - 1, numTriplets)) {
+                return true;
+            }
+        }
+
+        if (numTriplets > 0 && canFormTriplet(hand)) {
+            List<MahjongTile> remainingHand = removeTriplet(hand);
+            if (canFormValidSets(remainingHand, numSequences, numTriplets - 1)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean canFormSequence(List<MahjongTile> hand) {
+        if (hand.size() < 3) {
+            return false;
+        }
+
+        MahjongTile firstTile = hand.get(0);
+        MahjongTile secondTile = new MahjongTile(firstTile.getValue() + 1, firstTile.getSuit());
+        MahjongTile thirdTile = new MahjongTile(firstTile.getValue() + 2, firstTile.getSuit());
+
+        return hand.contains(secondTile) && hand.contains(thirdTile);
+    }
+
+    private List<MahjongTile> removeSequence(List<MahjongTile> hand) {
+        List<MahjongTile> remainingHand = new ArrayList<>(hand);
+        MahjongTile firstTile = hand.get(0);
+        MahjongTile secondTile = new MahjongTile(firstTile.getValue() + 1, firstTile.getSuit());
+        MahjongTile thirdTile = new MahjongTile(firstTile.getValue() + 2, firstTile.getSuit());
+
+        remainingHand.remove(firstTile);
+        remainingHand.remove(secondTile);
+        remainingHand.remove(thirdTile);
+
+        return remainingHand;
+    }
+
+    private boolean canFormTriplet(List<MahjongTile> hand) {
+        if (hand.size() < 3) {
+            return false;
+        }
+
+        MahjongTile firstTile = hand.get(0);
+        int count = 0;
+        for (MahjongTile tile : hand) {
+            if (tile.equals(firstTile)) {
+                count++;
+            }
+        }
+
+        return count >= 3;
+    }
+
+    private List<MahjongTile> removeTriplet(List<MahjongTile> hand) {
+        List<MahjongTile> remainingHand = new ArrayList<>(hand);
+        MahjongTile firstTile = hand.get(0);
+
+        remainingHand.remove(firstTile);
+        remainingHand.remove(firstTile);
+        remainingHand.remove(firstTile);
+
+        return remainingHand;
+    }
 
 
 }
