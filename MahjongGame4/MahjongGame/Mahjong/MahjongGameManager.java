@@ -28,7 +28,10 @@ public class MahjongGameManager {
 
     public static boolean ifDealTiles= false;// connect with Game Screen
 
+    public static boolean ifDiscardTiles= false;//
     private PlayerListener listener;
+
+    public  static List<MahjongTile>  usedTiles =new ArrayList<>();
 
     public MahjongGameManager(PlayerListener listener) {
         PlayerManager playerManager = new PlayerManager();

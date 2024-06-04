@@ -25,6 +25,8 @@ public class GameScreen extends JFrame { ;
     int startY2 = mahjongHeight; // 20像素距离屏幕底部
     int startY3 = mahjongHeight + 80; // 20像素距离屏幕底部
 
+    static Image bgTile = new ImageIcon("img/tile/tile_Face.png").getImage();
+
     //private static JPanel  panel;
 
     private int update_times=0;
@@ -48,8 +50,7 @@ public class GameScreen extends JFrame { ;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         System.out.println("GameS");
-        // 创建面板并添加到窗口中
-        //createPanel();
+
 
         JPanel panel = new JPanel() {
             @Override
@@ -58,15 +59,17 @@ public class GameScreen extends JFrame { ;
                 drawBackground(g);
                 drawPlayers(g);
                 drawPlayerTiles(g);
-                //System.out.println(MahjongGameManager.Player_hand.toString());
+
                 update_player_and();// update
-                //drawPlayerHand2(g);
-                //System.out.println(MahjongGameManager.Player_hand.toString());
+
                 for (int i = 0; i < MahjongGameManager.Player_hand.size(); i++) {
                     MahjongTile tile = MahjongGameManager.Player_hand.get(i);
                     matchTilesWithImage(tile);
                     JLabel t = paintTiles(tile, i);
                     add(t);
+                }
+                if(MahjongGameManager.ifDiscardTiles) {
+                    drawUsedTiles(g);
                 }
             }
 
@@ -106,6 +109,38 @@ public class GameScreen extends JFrame { ;
 //        update_times++;
 
     }
+
+
+    private void drawUsedTiles(Graphics g) {
+        int[] xy = {250, 250, 50, 80};
+        for (int i = 0; i < MahjongGameManager.usedTiles.size(); i++) {
+            MahjongTile curTile = MahjongGameManager.usedTiles.get(i);
+
+
+            int x = xy[0] + (i % 10) * xy[2];
+            int y = xy[1] + (i / 10 % 5) * xy[3];
+            drawBackgroundTile(g, x, y - 10, mahjongWidth, mahjongHeight + 10);
+            //Image image = new ImageIcon(GameUtil.tile2ImgPath(curTile)).getImage();
+            matchTilesWithImage(curTile);
+            Image image = new ImageIcon(curTile.ImagePath).getImage();
+            System.out.println(curTile.ImagePath);
+            g.drawImage(image, x, y, mahjongWidth, mahjongHeight, this);
+//            JLabel t = paintTiles(curTile, i);
+//            add(t);
+            if (i == MahjongGameManager.usedTiles.size() - 1) {
+                Graphics2D g2d = (Graphics2D) g;
+                float thickness = 4;
+                g2d.setStroke(new BasicStroke(thickness));
+
+                g2d.drawRect(x, y - 10, mahjongWidth, mahjongHeight + 9);
+            }
+        }
+    }
+
+    private void drawBackgroundTile(Graphics g, int x, int y, int dx, int dy) {
+        g.drawImage(bgTile, x, y, dx, dy, this);
+    }
+
 
 //    private void createPanel() {
 //       // if (update_times!=0){

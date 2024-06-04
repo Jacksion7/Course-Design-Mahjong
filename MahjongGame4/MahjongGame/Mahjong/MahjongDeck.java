@@ -21,15 +21,28 @@ public class MahjongDeck {
         //初始化牌库
         for (int i = 1; i <= 9; i++) {
             for (int j = 0; j < 4; j++) {
-                tilesLibrary.add(new MahjongTile(i, "万"));
-                tilesLibrary.add(new MahjongTile(i, "条"));
-                tilesLibrary.add(new MahjongTile(i, "筒"));
+                MahjongTile tile1 = new MahjongTile(i, "万",null);
+                matchTilesWithImage(tile1);
+                tilesLibrary.add(tile1);
+
+                MahjongTile tile2 = new MahjongTile(i, "条",null);
+                matchTilesWithImage(tile2);
+                tilesLibrary.add(tile2);
+
+                MahjongTile tile3 = new MahjongTile(i, "筒",null);
+                matchTilesWithImage(tile3);
+                tilesLibrary.add(tile3);
+
+
             }
         }
         String[] honors = {"东", "南", "西", "北", "中", "发", "白"};
         for (String honor : honors) {
             for (int i = 0; i < 4; i++) {
-                tilesLibrary.add(new MahjongTile(0, honor));
+                MahjongTile tile4 = new MahjongTile(0, honor,null);
+                matchTilesWithImage(tile4);
+                tilesLibrary.add(tile4);
+                //tilesLibrary.add(new MahjongTile(0, honor,null));
             }
         }
     }
@@ -91,5 +104,117 @@ public class MahjongDeck {
             System.out.println();  // 打印后续的换行符，如果最后一行不足四个值
         }
     }
+
+    public static void matchTilesWithImage(MahjongTile tile) {
+        if (tile.getSuit() == "万") {
+            if (tile.getValue() == 1) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan1.png";
+            }
+            if (tile.getValue() == 2) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan2.png";
+            }
+            if (tile.getValue() == 3) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan3.png";
+            }
+            if (tile.getValue() == 4) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan4.png";
+            }
+            if (tile.getValue() == 5) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan5.png";
+            }
+            if (tile.getValue() == 6) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan6.png";
+            }
+            if (tile.getValue() == 7) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan7.png";
+            }
+            if (tile.getValue() == 8) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan8.png";
+            }
+            if (tile.getValue() == 9) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan9.png";
+            }
+        }
+        if (tile.getSuit() == "条") {
+            if (tile.getValue() == 1) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao1.png";
+            }
+            if (tile.getValue() == 2) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao2.png";
+            }
+            if (tile.getValue() == 3) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao3.png";
+            }
+            if (tile.getValue() == 4) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao4.png";
+            }
+            if (tile.getValue() == 5) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao5.png";
+            }
+            if (tile.getValue() == 6) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao6.png";
+            }
+            if (tile.getValue() == 7) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao7.png";
+            }
+            if (tile.getValue() == 8) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao8.png";
+            }
+            if (tile.getValue() == 9) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao9.png";
+            }
+        }
+        if (tile.getSuit() == "筒") {
+            if (tile.getValue() == 1) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong1.png";
+            }
+            if (tile.getValue() == 2) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong2.png";
+            }
+            if (tile.getValue() == 3) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong3.png";
+            }
+            if (tile.getValue() == 4) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong4.png";
+            }
+            if (tile.getValue() == 5) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong5.png";
+            }
+            if (tile.getValue() == 6) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong6.png";
+            }
+            if (tile.getValue() == 7) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong7.png";
+            }
+            if (tile.getValue() == 8) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong8.png";
+            }
+            if (tile.getValue() == 9) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong9.png";
+            }
+        }
+        if (tile.getSuit()=="中"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/zhong.png";
+        }
+        if (tile.getSuit()=="发"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/fa.png";
+        }
+        if (tile.getSuit()=="白"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/white.png";
+        }
+        if (tile.getSuit()=="东"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/east.png";
+        }
+        if (tile.getSuit()=="西"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/west.png";
+        }
+        if (tile.getSuit()=="南"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/south.png";
+        }
+        if (tile.getSuit()=="北"){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/north.png";
+        }
+    }
+
 }
 
