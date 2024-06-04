@@ -12,6 +12,12 @@ public class MahjongTile{
     public String ImagePath;
 
     //构造麻将牌
+    public MahjongTile(int value, String suit,String ImagePath) {
+        this.suit = suit;
+        this.value = value;
+        this.ImagePath=ImagePath;
+    }
+
     public MahjongTile(int value, String suit) {
         this.suit = suit;
         this.value = value;

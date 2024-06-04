@@ -2,6 +2,8 @@ package GameRules;
 
 import Mahjong.MahjongTile;
 import Players.Player;
+import Mahjong.MahjongGameManager;
+import UI.GameScreen;
 
 import java.util.*;
 
@@ -84,7 +86,10 @@ public class Rules {
         }
 
         String suit = parts[1];
-        MahjongTile Tile = new MahjongTile(value, suit);
+        MahjongTile Tile = new MahjongTile(value, suit,null);
+        Tile.ImagePath=matchTilesWithImage(Tile);
+
+
 
         if (!isTileInHand(Tile, currentPlayer)) {
             System.out.println("您手上的牌中没有该牌，请重新输入！");
@@ -92,9 +97,18 @@ public class Rules {
             return;
         }
 
+        discardTile = Tile;
+//        matchTilesWithImage(Tile);
+//        matchTilesWithImage(discardTile);
+
+        //MahjongGameManager.usedTiles.add(Tile);
+        MahjongGameManager.usedTiles.add(Tile);
+        MahjongGameManager.ifDiscardTiles=true;
+
         currentPlayer.dealPlayerTile(Tile);
         System.out.println("Players.Player " + (playerIndex + 1) + "出了一张牌：" + Tile);
-        discardTile = Tile;
+
+
     }
 
     private boolean isTileInHand(MahjongTile tile, Player player) {
@@ -565,6 +579,119 @@ public class Rules {
 
         return remainingHand;
     }
+
+    public static String matchTilesWithImage(MahjongTile tile) {
+        if (tile.getSuit().equals("万") ) {
+            if (tile.getValue() == 1) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan1.png";
+            }
+            if (tile.getValue() == 2) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan2.png";
+            }
+            if (tile.getValue() == 3) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan3.png";
+            }
+            if (tile.getValue() == 4) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan4.png";
+            }
+            if (tile.getValue() == 5) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan5.png";
+            }
+            if (tile.getValue() == 6) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan6.png";
+            }
+            if (tile.getValue() == 7) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan7.png";
+            }
+            if (tile.getValue() == 8) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan8.png";
+            }
+            if (tile.getValue() == 9) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/wan/wan9.png";
+            }
+        }
+        if (tile.getSuit().equals("条") ) {
+            if (tile.getValue() == 1) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao1.png";
+            }
+            if (tile.getValue() == 2) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao2.png";
+            }
+            if (tile.getValue() == 3) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao3.png";
+            }
+            if (tile.getValue() == 4) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao4.png";
+            }
+            if (tile.getValue() == 5) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao5.png";
+            }
+            if (tile.getValue() == 6) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao6.png";
+            }
+            if (tile.getValue() == 7) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao7.png";
+            }
+            if (tile.getValue() == 8) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao8.png";
+            }
+            if (tile.getValue() == 9) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tiao/tiao9.png";
+            }
+        }
+        if (tile.getSuit().equals("筒")) {
+            if (tile.getValue() == 1) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong1.png";
+            }
+            if (tile.getValue() == 2) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong2.png";
+            }
+            if (tile.getValue() == 3) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong3.png";
+            }
+            if (tile.getValue() == 4) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong4.png";
+            }
+            if (tile.getValue() == 5) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong5.png";
+            }
+            if (tile.getValue() == 6) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong6.png";
+            }
+            if (tile.getValue() == 7) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong7.png";
+            }
+            if (tile.getValue() == 8) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong8.png";
+            }
+            if (tile.getValue() == 9) {
+                tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/tong/tong9.png";
+            }
+        }
+        if (tile.getSuit().equals("中")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/zhong.png";
+        }
+        if (tile.getSuit().equals("发")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/fa.png";
+        }
+        if (tile.getSuit().equals("白")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/white.png";
+        }
+        if (tile.getSuit().equals("东")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/east.png";
+        }
+        if (tile.getSuit().equals("西")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/west.png";
+        }
+        if (tile.getSuit().equals("南")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/south.png";
+        }
+        if (tile.getSuit().equals("北")){
+            tile.ImagePath = "MahjongGame4/imgSet/MahjongTile/bonus/north.png";
+        }
+       return tile.ImagePath;
+    }
+
 
 
 }
