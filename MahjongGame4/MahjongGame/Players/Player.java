@@ -29,6 +29,10 @@ public class Player {
         players = PlayerManager.getPlayers();
     }
 
+    public static Player[] getPlayers() {
+        return players;
+    }
+
     public void dealPlayerTile(MahjongTile tile) {
         if (hand.contains(tile)) {
             hand.remove(tile);
