@@ -43,6 +43,8 @@ public class GameScreen extends JFrame { ;
     private static MahjongTile selectedCard ;
     private static JLabel selectedLabel;
 
+    private JLabel roundLabel; // Label for round number image
+
 
 
     public GameScreen() {
@@ -64,6 +66,9 @@ public class GameScreen extends JFrame { ;
                 drawPlayers(g);
                 drawPlayerTiles(g);
 
+                // Initialize round label
+                updateRoundLabel(g, MahjongGameManager.getRound());
+
                 update_player_and();// update
 
                 for (int i = 0; i < MahjongGameManager.Player_hand.size(); i++) {
@@ -80,6 +85,7 @@ public class GameScreen extends JFrame { ;
 
         }; // 设置面板布局
         panel.setLayout(null);
+
 
         JButton button = new JButton();
         JButton draw_button = new JButton("Draw ");
@@ -354,6 +360,13 @@ public class GameScreen extends JFrame { ;
     private void drawPlayerTiles(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         initialPlayerTiles(g2);
+    }
+
+    // Method to update the round label with the appropriate image
+    public void updateRoundLabel(Graphics g, int round) {
+        Image round1 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/Round/round" + round + ".png").getImage();
+        g.drawImage(round1, 350,350,100,100, this);
+
     }
 
 //    private void addButtons() {

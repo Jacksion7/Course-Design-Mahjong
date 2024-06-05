@@ -16,7 +16,7 @@ public class MahjongGameManager {
     private MahjongDeck deck;
     public static Player[] players;// players connect with GameScreen
     private Rules rules;
-    private int playerIndex;
+    private static int playerIndex;
     public static List<MahjongTile> Player_hand;// connect with Game Screen
 
     public static List<MahjongTile> computer1_hand;
@@ -42,6 +42,10 @@ public class MahjongGameManager {
         this.listener = listener;
         gameScreen = new GameScreen();
 
+    }
+
+    public static int getRound() {
+        return playerIndex + 1; // 假设回合数是当前玩家的索引加1
     }
 
 
