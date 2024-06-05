@@ -3,6 +3,7 @@ package UI;
 import Mahjong.MahjongGameManager;
 import Mahjong.MahjongTile;
 import Players.Player;
+import Players.PlayerManager;
 
 
 import javax.swing.*;
@@ -25,13 +26,15 @@ public class GameScreen extends JFrame { ;
     int startY2 = mahjongHeight; // 20像素距离屏幕底部
     int startY3 = mahjongHeight + 80; // 20像素距离屏幕底部
 
-    static Image bgTile = new ImageIcon("img/tile/tile_Face.png").getImage();
+    static Image bgTile = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_Face.png").getImage();
 
     //private static JPanel  panel;
 
     private int update_times=0;
 
     public static Player player;
+
+    public Player[] players;// players connect with GameScreen
 
     public static List<MahjongTile> Player_hand;// connect with Game Screen
 
@@ -43,6 +46,7 @@ public class GameScreen extends JFrame { ;
 
 
     public GameScreen() {
+        players= MahjongGameManager.getPlayers();
         JFrame frame = new JFrame();
         frame.setTitle("Image Frame Example");
         setSize(800, 800);
@@ -98,35 +102,26 @@ public class GameScreen extends JFrame { ;
         panel.add(button);
         panel.add(draw_button);
         panel.add(button3);
-        // 添加按钮到面板中
-        //addButtons();
+
 
         // 将面板添加到窗口中
         add(panel);
-//        if (update_times!=0){
-//             removeAll();
-//        }
-//        update_times++;
+
 
     }
 
 
     private void drawUsedTiles(Graphics g) {
-        int[] xy = {250, 250, 50, 80};
+        int[] xy = {200, 200, 50, 80};
         for (int i = 0; i < MahjongGameManager.usedTiles.size(); i++) {
             MahjongTile curTile = MahjongGameManager.usedTiles.get(i);
-
-
             int x = xy[0] + (i % 10) * xy[2];
             int y = xy[1] + (i / 10 % 5) * xy[3];
             drawBackgroundTile(g, x, y - 10, mahjongWidth, mahjongHeight + 10);
-            //Image image = new ImageIcon(GameUtil.tile2ImgPath(curTile)).getImage();
             matchTilesWithImage(curTile);
             Image image = new ImageIcon(curTile.ImagePath).getImage();
             System.out.println(curTile.ImagePath);
             g.drawImage(image, x, y, mahjongWidth, mahjongHeight, this);
-//            JLabel t = paintTiles(curTile, i);
-//            add(t);
             if (i == MahjongGameManager.usedTiles.size() - 1) {
                 Graphics2D g2d = (Graphics2D) g;
                 float thickness = 4;
@@ -137,50 +132,19 @@ public class GameScreen extends JFrame { ;
         }
     }
 
+    public void drawRuleTiles_1(Graphics g){
+        for(int i = 0; i < players[0].rulesTiles.size(); i++) {
+            MahjongTile curTile = MahjongGameManager.usedTiles.get(i);
+            //int x =
+        }
+    }
+
     private void drawBackgroundTile(Graphics g, int x, int y, int dx, int dy) {
-        g.drawImage(bgTile, x, y, dx, dy, this);
+        g.drawImage( bgTile, x, y, dx, dy, this);
     }
 
 
-//    private void createPanel() {
-//       // if (update_times!=0){
-//
-//        //}
-//        panel = new JPanel() {
-//            @Override
-//            protected void paintComponent(Graphics g) {
-//                super.paintComponent(g);
-//                drawBackground(g);
-//                drawPlayers(g);
-//                drawPlayerTiles(g);
-//                //System.out.println(MahjongGameManager.Player_hand.toString());
-//                drawPlayerHand2(g);
-//                //drawPlayerHand(g);
-//            }
-//        }; // 设置面板布局
-//        panel.setLayout(null);
-//
-//        // 添加按钮到面板中
-//        addButtons();
-//
-//        // 将面板添加到窗口中
-//        add(panel);
-//
-//        //panel.removeAll();
-//    }
 
-
-
-//    private void drawPlayerHand2(Graphics g) {
-//        update_player_and();// update
-//        System.out.println(MahjongGameManager.Player_hand.toString());
-//        for (int i = 0; i < MahjongGameManager.Player_hand.size(); i++) {
-//            MahjongTile tile = MahjongGameManager.Player_hand.get(i);
-//            matchTilesWithImage(tile);
-//            JLabel t = paintTiles(tile, i);
-//            panel.add(t);
-//        }
-//    }
 
 
     public void update_player_hand(){
@@ -196,14 +160,14 @@ public class GameScreen extends JFrame { ;
 
     protected void initialPlayerTiles(Graphics2D g2d) {
 
-       // Image tile_Face = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_Face.png").getImage();
+        Image tile_Face = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_Face.png").getImage();
         Image tile_Back = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_Back.png").getImage();
         Image tile_Lay = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_lay.png").getImage();
         Image tile_Lay2 = new ImageIcon("MahjongGame4/imgSet/MahjongTile/tile_lay2.png").getImage();
 
         // 在屏幕下方从左到右绘制13张相同的空白麻将图片
         for (int i = 0; i < 13; i++) {
-           // g2d.drawImage(tile_Face, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
+            g2d.drawImage(tile_Face, startX1 - 120 + i * 40, startY1 -40 , mahjongWidth, mahjongHeight, this);
             g2d.drawImage(tile_Back, startX1 - 120 + i * 40, startY2 + 5, mahjongWidth, mahjongHeight, this);
             g2d.drawImage(tile_Lay2, startX1 - 150, startY3 - 20 + i * 40, mahjongWidth, mahjongHeight, this);
             g2d.drawImage(tile_Lay, startX2 + 90, startY3 - 20 + i * 40, mahjongWidth, mahjongHeight, this);

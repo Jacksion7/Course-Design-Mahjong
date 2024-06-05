@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MahjongGameManager {
     private MahjongDeck deck;
-    private Player[] players;
+    public static Player[] players;// players connect with GameScreen
     private Rules rules;
     private int playerIndex;
     public static List<MahjongTile> Player_hand;// connect with Game Screen
@@ -77,6 +77,9 @@ public class MahjongGameManager {
     }
 
 
+    public static Player[] getPlayers() {
+        return players;
+    }
 
     public List<MahjongTile> getPlayer_hand() {
         return Player_hand;
