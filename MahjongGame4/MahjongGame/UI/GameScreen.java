@@ -366,6 +366,19 @@ public class GameScreen extends JFrame { ;
     public void updateRoundLabel(Graphics g, int round) {
         Image round1 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/Round/round" + round + ".png").getImage();
         g.drawImage(round1, 350,350,100,100, this);
+        if(round == 1){
+            Image round2 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/Round/down.png").getImage();
+            g.drawImage(round2, 350,450,100,40, this);
+        }else if (round == 2){
+            Image round2 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/Round/left.png").getImage();
+            g.drawImage(round2, 310,350,40,100, this);
+        }else if (round == 3) {
+            Image round2 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/Round/up.png").getImage();
+            g.drawImage(round2, 350, 310, 100, 40, this);
+        }else if (round == 4) {
+            Image round2 = new ImageIcon("MahjongGame4/imgSet/PlayScreen/Round/right.png").getImage();
+            g.drawImage(round2, 450, 350, 40, 100, this);
+        }
 
     }
 
